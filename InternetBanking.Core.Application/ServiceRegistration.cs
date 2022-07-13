@@ -10,7 +10,6 @@ namespace InternetBanking.Core.Application
         {
             service.AddAutoMapper(Assembly.GetExecutingAssembly());
             #region Services
-            //service.AddTransient<IUserService, UserService>();
             #endregion
         }
     }

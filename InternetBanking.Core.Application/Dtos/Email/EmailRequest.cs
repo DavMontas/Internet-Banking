@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace InternetBanking.Core.Application.Dtos
+namespace InternetBanking.Core.Application.Dtos.Email
 {
     public class EmailRequest
     {

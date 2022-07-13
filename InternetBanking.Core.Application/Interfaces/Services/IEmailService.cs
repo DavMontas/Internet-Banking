@@ -1,4 +1,5 @@
 ﻿using InternetBanking.Core.Application.Dtos;
+using InternetBanking.Core.Application.Dtos.Email;
 using System;
 using System.Collections.Generic;
 using System.Linq;

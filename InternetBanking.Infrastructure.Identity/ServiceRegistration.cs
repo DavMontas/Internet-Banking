@@ -1,5 +1,7 @@
-﻿using InternetBanking.Infrastructure.Identity.Context;
+﻿using InternetBanking.Core.Application.Interfaces.Services;
+using InternetBanking.Infrastructure.Identity.Context;
 using InternetBanking.Infrastructure.Identity.Entities;
+using InternetBanking.Infrastructure.Identity.Services;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -29,13 +31,17 @@ namespace InternetBanking.Infrastructure.Identity
                     options.UseSqlServer(config.GetConnectionString("IdentityConnection"),
                     m => m.MigrationsAssembly(typeof(IdentityContext).Assembly.FullName)));
             }
-
+            
             #region 'Identity'
             service.AddIdentity<ApplicationUser, IdentityRole>()
                 .AddEntityFrameworkStores<IdentityContext>()
                 .AddDefaultTokenProviders();
 
             service.AddAuthentication();
+            #endregion
+
+            #region 'Services'
+            service.AddTransient<IAccountService, AccountService>();
             #endregion
         }
     }
