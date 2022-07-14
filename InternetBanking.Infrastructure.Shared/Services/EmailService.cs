@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using InternetBanking.Core.Application.Dtos.Email;
 
 namespace InternetBanking.Infrastructure.Shared.Services
 {
