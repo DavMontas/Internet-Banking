@@ -1,2 +1,72 @@
-﻿@{}
+﻿@{
+    ViewData["Title"] = "Login";
+}
+
+<div class="row">
+    <section class="col-10 mx-auto bg-primary rounded-3 text-white text-center p-3 my-5">
+		<h3 class="display-8 fw-normal text-uppercase fw-bolder m-0">
+            Banco BDM
+        </h3>
+	</section>
+    <div class="col-4 mx-auto rounded-3 shadow p-4">
+        <form method="post" asp-controller="User" asp-action="Index" class="d-flex flex-column justify-content-center gap-4">
+            <div class="d-flex justify-content-between align-items-center">
+                <h3 class="text-muted w-100">
+                    Login
+                </h3>
+                <div class="btn-group w-100" role="group" aria-label="Basic radio toggle button group">
+                  <input type="radio" class="btn-check" name="btnradio" id="btnradio1" autocomplete="off" checked="">
+                  <label class="btn btn-outline-primary" for="btnradio1">Cliente</label>
+                  <input type="radio" class="btn-check" name="btnradio" id="btnradio2" autocomplete="off" checked="">
+                  <label class="btn btn-outline-primary" for="btnradio2">Administrador</label>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="form-floating mb-3">
+                    <input type="email" class="form-control" id="floatingInput" placeholder="vicdiaz@gmail.com">
+                    <label for="floatingInput">Correo</label>
+                </div>
+                <div class="form-floating">
+                    <input type="password" class="form-control" id="floatingPassword" placeholder="*****">
+                    <label for="floatingPassword">Contraseña</label>
+                </div>
+                <div class="form-group my-3">
+                    <button type="submit" class="btn btn-primary btn-lg w-100">Acceder</button>
+                </div>
+
+            </div>
+
+            <div class="col-3 mx-auto">
+                <a asp-controller="User" asp-action="Register" class="btn btn-outline-primary w-100">
+                    Registrar
+                </a>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+<!-- Button trigger modal -->
+<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+  Advertencia
+</button>
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Atención!</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+         El usuario ya se encuentra logueado
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
 
