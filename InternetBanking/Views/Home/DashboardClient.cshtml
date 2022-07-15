@@ -1,0 +1,134 @@
+﻿@*
+    
+*@
+@{
+}
+
+<div class="">
+
+    <div class="d-flex flex-column flex-shrink-0 p-3 text-white bg-dark" style="width: 280px;">
+    <a href="/" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-white text-decoration-none">
+      <svg class="bi pe-none me-2" width="40" height="32"><use xlink:href="#bootstrap"></use></svg>
+      <span class="fs-4">Sidebar</span>
+    </a>
+    <hr>
+    <ul class="nav nav-pills flex-column mb-auto">
+      <li class="nav-item">
+        <a href="#" class="nav-link active" aria-current="page">
+          <svg class="bi pe-none me-2" width="16" height="16"><use xlink:href="#home"></use></svg>
+          Home
+        </a>
+      </li>
+      <li>
+        <a href="#" class="nav-link text-white">
+          <svg class="bi pe-none me-2" width="16" height="16"><use xlink:href="#speedometer2"></use></svg>
+          Dashboard
+        </a>
+      </li>
+      <li>
+        <a href="#" class="nav-link text-white">
+          <svg class="bi pe-none me-2" width="16" height="16"><use xlink:href="#table"></use></svg>
+          Orders
+        </a>
+      </li>
+      <li>
+        <a href="#" class="nav-link text-white">
+          <svg class="bi pe-none me-2" width="16" height="16"><use xlink:href="#grid"></use></svg>
+          Products
+        </a>
+      </li>
+      <li>
+        <a href="#" class="nav-link text-white">
+          <svg class="bi pe-none me-2" width="16" height="16"><use xlink:href="#people-circle"></use></svg>
+          Customers
+        </a>
+      </li>
+    </ul>
+    <hr>
+    <div class="dropdown">
+      <a href="#" class="d-flex align-items-center text-white text-decoration-none dropdown-toggle" id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">
+        <img src="https://github.com/mdo.png" alt="" width="32" height="32" class="rounded-circle me-2">
+        <strong>mdo</strong>
+      </a>
+      <ul class="dropdown-menu dropdown-menu-dark text-small shadow" aria-labelledby="dropdownUser1" style="">
+        <li><a class="dropdown-item" href="#">New project...</a></li>
+        <li><a class="dropdown-item" href="#">Settings</a></li>
+        <li><a class="dropdown-item" href="#">Profile</a></li>
+        <li><hr class="dropdown-divider"></li>
+        <li><a class="dropdown-item" href="#">Sign out</a></li>
+      </ul>
+    </div>
+  </div>
+
+    <div class="row bg-light rounded p-3 my-5">
+        <section class="w-100 d-flex justify-content-between align-items-center">
+            <h3 class="fw-bold">Dashboard</h3>
+            <a 
+                class="btn btn-primary" 
+                data-bs-toggle="offcanvas" 
+                href="#offcanvasExample" r
+                ole="button" aria-controls="offcanvasExample"
+            >
+                Menu
+            </a>
+        </section>
+    </div>
+    <div class="row gap-5 justify-content-center align-items-center">
+        <section class="col-4 shadow">
+            <div class="d-flex flex-column text-center gap-4 p-3">
+                <h6 class="fw-bold text-uppercase mt-2">Cantidad de transacciones</h6>
+                <div class="d-flex justify-content-around align-items-center">
+                    <section class="d-flex flex-column align-items-center gap-2">
+                        <h6 class="text-uppercase text-muted fw-bold">Hoy</h6>
+                        <span class="badge bg-light rounded-pill fs-6 px-3">30</span>
+                    </section>
+                    <section class="d-flex flex-column align-items-center gap-2">
+                        <h6 class="text-uppercase fw-bold">Total</h6>
+                        <span class="badge bg-primary rounded-pill fs-6 px-3">540</span>
+                    </section>
+                </div>
+            </div>
+        </section>
+        <section class="col-3 shadow">
+            <div class="d-flex flex-column text-center gap-4 p-3">
+                <h6 class="fw-bold text-uppercase mt-2">Cantidad de pagos</h6>
+                <div class="d-flex justify-content-around align-items-center">
+                    <section class="d-flex flex-column align-items-center gap-2">
+                        <h6 class="text-uppercase text-muted fw-bold">Hoy</h6>
+                        <span class="badge bg-light rounded-pill fs-6 px-3">30</span>
+                    </section>
+                    <section class="d-flex flex-column align-items-center gap-2">
+                        <h6 class="text-uppercase fw-bold">Total</h6>
+                        <span class="badge bg-primary rounded-pill fs-6 px-3">540</span>
+                    </section>
+                </div>
+            </div>
+        </section>
+        <section class="col-3 shadow">
+            <div class="d-flex flex-column text-center gap-4 p-3">
+                <h6 class="fw-bold text-uppercase mt-2 w-100">Estado de clientes</h6>
+                <div class="d-flex justify-content-around align-items-center">
+                    <section class="d-flex flex-column align-items-center gap-2">
+                        <h6 class="text-uppercase text-muted fw-bold">Activos</h6>
+                        <span class="badge bg-success rounded-pill fs-6 px-3">30</span>
+                    </section>
+                    <section class="d-flex flex-column align-items-center gap-2">
+                        <h6 class="text-uppercase fw-bold">Inactivos</h6>
+                        <span class="badge bg-danger rounded-pill fs-6 px-3">540</span>
+                    </section>
+                </div>
+            </div>
+        </section>
+        <section class="col-9 shadow">
+            <div class="d-flex flex-column gap-4 p-4 mt-3">
+                <h6 class="fw-bold text-uppercase">Cantidad de productos asignados al cliente</h6>
+                <div class="d-flex align-items-center gap-5">
+                    <section class="d-flex justify-content-center align-items-center gap-4">
+                        <h6 class="text-uppercase fw-bold m-0">Total</h6>
+                        <span class="badge bg-primary rounded-pill fs-6 px-5">53</span>
+                    </section>
+                </div>
+            </div>
+        </section>
+    </div>
+</div>
