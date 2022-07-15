@@ -16,7 +16,7 @@ namespace InternetBanking.Controllers
 
         }
 
-        public IActionResult DashboardAdmin()
+        public IActionResult DashbIoIardAdmin()
         {
             return View();
         }

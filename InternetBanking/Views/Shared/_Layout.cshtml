@@ -1,4 +1,13 @@
-﻿<!DOCTYPE html>
+﻿@using Microsoft.AspNetCore.Http
+@using InternetBanking.Core.Application.Dtos.Account
+@using InternetBanking.Core.Application.Helpers
+@using InternetBanking.Core.Application.ViewModels.User
+@inject IHttpContextAccessor httpContextAccesor
+@{
+    var user = httpContextAccesor.HttpContext.Session.Get<AuthenticationResponse>("user");
+}
+
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />

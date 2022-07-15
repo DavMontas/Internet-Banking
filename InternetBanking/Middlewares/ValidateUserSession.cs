@@ -1,4 +1,5 @@
-﻿using InternetBanking.Core.Application.Helpers;
+﻿using InternetBanking.Core.Application.Dtos.Account;
+using InternetBanking.Core.Application.Helpers;
 using InternetBanking.Core.Application.ViewModels.User;
 using Microsoft.AspNetCore.Http;
 using System;
@@ -19,7 +20,7 @@ namespace WebApp.InternetBanking.Middlewares
 
         public bool HasUser()
         {
-            UserViewModel userVm = _httpContextAccessor.HttpContext.Session.Get<UserViewModel>("user");
+            AuthenticationResponse userVm = _httpContextAccessor.HttpContext.Session.Get<AuthenticationResponse>("user");
             bool validate = userVm == null ? false : true;
             return validate;
         }
