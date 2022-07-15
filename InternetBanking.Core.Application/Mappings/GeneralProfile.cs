@@ -1,4 +1,6 @@
 ﻿using AutoMapper;
+using InternetBanking.Core.Application.Dtos.Account;
+using InternetBanking.Core.Application.ViewModels.User;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,23 +15,25 @@ namespace InternetBanking.Core.Application.Mappings
         {
             #region mappings
 
-            #region entityexamplemapping
+            CreateMap<AuthenticationRequest, LoginViewModel>()
+                .ForMember(x => x.HasError, opt => opt.Ignore())
+                .ForMember(x => x.Error, opt => opt.Ignore())
+                .ReverseMap();
 
-            //CreateMap<User, UserVM>()
-            //   .ReverseMap()
-            //   .ForMember(dest => dest.Created, opt => opt.Ignore())
-            //   .ForMember(dest => dest.CreatedBy, opt => opt.Ignore())
-            //   .ForMember(dest => dest.LastModified, opt => opt.Ignore())
-            //   .ForMember(dest => dest.ModifiedBy, opt => opt.Ignore());
-            //CreateMap<User, UserSaveVM>()
-            //    .ForMember(dest => dest.ConfirmPassword, opt => opt.Ignore())
-            //    .ReverseMap()
-            //    .ForMember(dest => dest.Created, opt => opt.Ignore())
-            //    .ForMember(dest => dest.CreatedBy, opt => opt.Ignore())
-            //    .ForMember(dest => dest.LastModified, opt => opt.Ignore())
-            //    .ForMember(dest => dest.ModifiedBy, opt => opt.Ignore());
+            CreateMap<RegisterRequest, UserSaveViewModel>()
+                .ForMember(x => x.HasError, opt => opt.Ignore())
+                .ForMember(x => x.Error, opt => opt.Ignore())
+                .ReverseMap();
 
-            #endregion
+            CreateMap<ForgotPasswordRequest, ForgotPassViewModel>()
+                .ForMember(x => x.HasError, opt => opt.Ignore())
+                .ForMember(x => x.Error, opt => opt.Ignore())
+                .ReverseMap();
+
+            CreateMap<ResetPasswordRequest, ResetPassViewModel>()
+                .ForMember(x => x.HasError, opt => opt.Ignore())
+                .ForMember(x => x.Error, opt => opt.Ignore())
+                .ReverseMap();
 
             #endregion
         }

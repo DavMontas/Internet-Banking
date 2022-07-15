@@ -1,4 +1,6 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using InternetBanking.Core.Application.Interfaces.Services;
+using InternetBanking.Core.Application.Services;
+using Microsoft.Extensions.DependencyInjection;
 using System.Reflection;
 
 namespace InternetBanking.Core.Application
@@ -10,6 +12,7 @@ namespace InternetBanking.Core.Application
         {
             service.AddAutoMapper(Assembly.GetExecutingAssembly());
             #region Services
+            service.AddTransient<IUserService, UserService>();
             #endregion
         }
     }

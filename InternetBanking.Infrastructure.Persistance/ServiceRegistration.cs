@@ -32,6 +32,7 @@ namespace InternetBanking.Infrastructure.Persistence
 
             #region 'repositories'
             service.AddTransient(typeof(IGenericRepository<>), typeof(GenericRepository<>));
+
             #endregion
         }
     }

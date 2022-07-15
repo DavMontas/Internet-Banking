@@ -149,18 +149,18 @@ namespace InternetBanking.Infrastructure.Identity.Services
             ForgotPasswordResponse res = new(); 
             res.HasError = false;
 
-            var account = await _userManager.FindByEmailAsync(req.Email);
-            if (account != null)
+            var user = await _userManager.FindByEmailAsync(req.Email);
+            if (user != null)
             {
                 res.HasError = true;
-                res.Error = $"No Accounts registered with {req.Email}.";
+                res.Error = $"No user registered with {req.Email}.";
                 return res;
             }
 
-            var forgotPassUri = await SendForgotPasswordUri(account, origin);
+            var forgotPassUri = await SendForgotPasswordUri(user, origin);
             await _emailService.SendAsync(new EmailRequest()
             {
-                To = account.Email,
+                To = user.Email,
                 Body = $"Please reset your password account visiting this URL {forgotPassUri}",
                 Subject = "Reset Password"
             });
@@ -174,16 +174,16 @@ namespace InternetBanking.Infrastructure.Identity.Services
             ResetPasswordResponse res = new();
             res.HasError = false;
 
-            var account = await _userManager.FindByEmailAsync(req.Email);
-            if (account != null)
+            var user = await _userManager.FindByEmailAsync(req.Email);
+            if (user != null)
             {
                 res.HasError = true;
-                res.Error = $"No Accounts registered with {req.Email}.";
+                res.Error = $"No user registered with {req.Email}.";
                 return res;
             }
 
             req.Token = Encoding.UTF8.GetString(WebEncoders.Base64UrlDecode(req.Token));
-            var result = await _userManager.ResetPasswordAsync(account, req.Token, req.Password);
+            var result = await _userManager.ResetPasswordAsync(user, req.Token, req.Password);
             if (!result.Succeeded)
             {
                 res.HasError = true;
