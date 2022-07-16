@@ -38,6 +38,7 @@ namespace InternetBanking
 
 
             services.AddControllersWithViews();
+            services.AddScoped<LoginAuthorize>();
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             services.AddTransient<ValidateUserSession, ValidateUserSession>();
         }

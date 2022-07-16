@@ -37,6 +37,12 @@ namespace InternetBanking.Infrastructure.Identity
                 .AddEntityFrameworkStores<IdentityContext>()
                 .AddDefaultTokenProviders();
 
+            service.ConfigureApplicationCookie(opts => 
+            {
+                opts.LoginPath = "/User";
+                opts.AccessDeniedPath = "/User/AccessDenied";
+            });
+
             service.AddAuthentication();
             #endregion
 

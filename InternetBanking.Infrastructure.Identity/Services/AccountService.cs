@@ -150,7 +150,7 @@ namespace InternetBanking.Infrastructure.Identity.Services
             res.HasError = false;
 
             var user = await _userManager.FindByEmailAsync(req.Email);
-            if (user != null)
+            if (user == null)
             {
                 res.HasError = true;
                 res.Error = $"No user registered with {req.Email}.";
@@ -175,7 +175,7 @@ namespace InternetBanking.Infrastructure.Identity.Services
             res.HasError = false;
 
             var user = await _userManager.FindByEmailAsync(req.Email);
-            if (user != null)
+            if (user == null)
             {
                 res.HasError = true;
                 res.Error = $"No user registered with {req.Email}.";
@@ -203,7 +203,7 @@ namespace InternetBanking.Infrastructure.Identity.Services
             var route = "User/ConfirmEmail";
             var uri = new Uri(string.Concat($"{origin}/", route));
             var verificationUri = QueryHelpers.AddQueryString(uri.ToString(), "userId", user.Id);
-            verificationUri = QueryHelpers.AddQueryString(uri.ToString(), "token", token);
+            verificationUri = QueryHelpers.AddQueryString(verificationUri, "token", token);
 
             return verificationUri;
         }

@@ -19,52 +19,52 @@
                             <button type="button" class="btn-close" data-bs-dimiss="alert" aria-label="Close"></button>
                         </div>
                     }
-                    <form asp-action="Register" asp-controller="User" method="post">
-                        <div class="mb-3">
-                            <label asp-for="FirstName" class="form-label">Nombre: </label>
-                            <input asp-for="FirstName" class="form-control" />
-                            <span asp-validation-for="FirstName" class="text-danger"></span>
-                        </div>
+                <form asp-controller="User" asp-action="Register" method="post">
+                    <div class="mb-3">
+                        <label asp-for="FirstName" class="form-label">Nombre: </label>
+                        <input asp-for="FirstName" class="form-control" />
+                        <span asp-validation-for="FirstName" class="text-danger"></span>
+                    </div>
 
-                        <div class="mb-3">
-                            <label asp-for="LastName" class="form-label">Apellido: </label>
-                            <input asp-for="LastName" class="form-control" />
-                            <span asp-validation-for="LastName" class="text-danger"></span>
-                        </div>
+                    <div class="mb-3">
+                        <label asp-for="LastName" class="form-label">Apellido: </label>
+                        <input asp-for="LastName" class="form-control" />
+                        <span asp-validation-for="LastName" class="text-danger"></span>
+                    </div>
 
-                        <div class="mb-3">
-                            <label asp-for="UserName" class="form-label">Nombre de Usuario: </label>
-                            <input asp-for="UserName" class="form-control" />
-                            <span asp-validation-for="UserName" class="text-danger"></span>
-                        </div>
+                    <div class="mb-3">
+                        <label asp-for="Email" class="form-label">Correo: </label>
+                        <input asp-for="Email" class="form-control" />
+                        <span asp-validation-for="Email" class="text-danger"></span>
+                    </div>
 
-                        <div class="mb-3">
-                            <label asp-for="Password" class="form-label">Contraseña: </label>
-                            <input asp-for="Password" class="form-control" />
-                            <span asp-validation-for="Password" class="text-danger"></span>
-                        </div>
+                    <div class="mb-3">
+                        <label asp-for="UserName" class="form-label">Nombre de Usuario: </label>
+                        <input asp-for="UserName" class="form-control" />
+                        <span asp-validation-for="UserName" class="text-danger"></span>
+                    </div>
 
-                        <div class="mb-3">
-                            <label asp-for="ConfirmPassword" class="form-label">Confirmar Contraseña: </label>
-                            <input asp-for="ConfirmPassword" class="form-control" />
-                            <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
-                        </div>
+                    <div class="mb-3">
+                        <label asp-for="Password" class="form-label">Contraseña: </label>
+                        <input asp-for="Password" class="form-control" />
+                        <span asp-validation-for="Password" class="text-danger"></span>
+                    </div>
 
-                        <div class="mb-3">
-                            <label asp-for="PhoneNumber" class="form-label">Telefono: </label>
-                            <input asp-for="PhoneNumber" class="form-control" />
-                            <span asp-validation-for="PhoneNumber" class="text-danger"></span>
-                        </div>
+                    <div class="mb-3">
+                        <label asp-for="ConfirmPassword" class="form-label">Confirmar Contraseña: </label>
+                        <input asp-for="ConfirmPassword" class="form-control" />
+                        <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+                    </div>
 
-                        <div class="mb-3">
-                            <label asp-for="Email" class="form-label">Correo: </label>
-                            <input asp-for="Email" class="form-control" />
-                            <span asp-validation-for="Email" class="text-danger"></span>
-                        </div>
+                    <div class="mb-3">
+                        <label asp-for="PhoneNumber" class="form-label">Telefono: </label>
+                        <input asp-for="PhoneNumber" class="form-control" />
+                        <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+                    </div>
 
-                        <a asp-controller="User" asp-action="Index" class="btn btn-warning">Volver atrás</a>
-                        <button type="submit" class="btn btn-primary">Guardar</button>
-                    </form>
+                    <a asp-controller="User" asp-action="Index" class="btn btn-warning">Volver atrás</a>
+                    <button type="submit" class="btn btn-primary">Guardar</button>
+                </form>
                 </div>
             </div>
         </div>

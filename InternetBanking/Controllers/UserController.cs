@@ -1,9 +1,11 @@
 ﻿using InternetBanking.Core.Application.Dtos.Account;
+using InternetBanking.Core.Application.Enums;
 using InternetBanking.Core.Application.Helpers;
 using InternetBanking.Core.Application.Interfaces.Services;
 using InternetBanking.Core.Application.ViewModels.User;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
+using WebApp.InternetBanking.Middlewares;
 
 namespace WebApp.InternetBanking.Controllers
 {
@@ -15,10 +17,13 @@ namespace WebApp.InternetBanking.Controllers
             _svc = svc;
         }
 
+        [ServiceFilter(typeof(LoginAuthorize))]
         public IActionResult Index()
         {
             return View(new LoginViewModel());
         }
+
+        [ServiceFilter(typeof(LoginAuthorize))]
         [HttpPost]
         public async Task<IActionResult> Index(LoginViewModel vm)
         {
@@ -31,7 +36,12 @@ namespace WebApp.InternetBanking.Controllers
             if (response != null && !response.HasError)
             {
                 HttpContext.Session.Set<AuthenticationResponse>("user", response);
-                return RedirectToRoute(new {controller = "Home", action = "Index"});
+                var rol = response.Roles.Contains(Roles.Admin.ToString());
+                if (rol)
+                {
+                    return RedirectToRoute(new { controller = "Home", action = "DashboardAdmin" });
+                }
+                return RedirectToRoute(new {controller = "Home", action = "DashboardClient" });
             }
             else
             {
@@ -48,10 +58,13 @@ namespace WebApp.InternetBanking.Controllers
             return RedirectToRoute(new { controller = "User" , action = "Index" });   
         }
 
+        [ServiceFilter(typeof(LoginAuthorize))]
         public IActionResult Register()
         {
             return View(new UserSaveViewModel());
         }
+
+        [ServiceFilter(typeof(LoginAuthorize))]
         [HttpPost]
         public async Task<IActionResult> Register(UserSaveViewModel vm)
         {
@@ -71,10 +84,11 @@ namespace WebApp.InternetBanking.Controllers
             return RedirectToRoute(new { controller = "User", action = "Index" });
         }
 
+        [ServiceFilter(typeof(LoginAuthorize))]
         public async Task<IActionResult> ConfirmEmail(string userId, string token)
         {
             string response = await _svc.ConfirmEmailAsync(userId, token);
-            return View(response);
+            return View("ConfirmEmail", response);
         }
 
         public IActionResult ForgotPassword()
@@ -82,10 +96,11 @@ namespace WebApp.InternetBanking.Controllers
             return View(new ForgotPassViewModel());
         }
 
+        [ServiceFilter(typeof(LoginAuthorize))]
         [HttpPost]
         public async Task<IActionResult>ForgotPassword(ForgotPassViewModel vm)
         {
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
                 return View(vm);
             }
@@ -101,15 +116,17 @@ namespace WebApp.InternetBanking.Controllers
             return RedirectToRoute(new { controller = "User", action = "Index" });
         }
 
+        [ServiceFilter(typeof(LoginAuthorize))]
         public IActionResult ResetPassword(string token)
         {
             return View(new ResetPassViewModel { Token = token });
         }
 
+        [ServiceFilter(typeof(LoginAuthorize))]
         [HttpPost]
         public async Task<IActionResult> ResetPassword(ResetPassViewModel vm)
         {
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
                 return View(vm);
             }
@@ -123,6 +140,9 @@ namespace WebApp.InternetBanking.Controllers
             }
             return RedirectToRoute(new { controller = "User", action = "Index" });
         }
-
+        public IActionResult AccessDenied()
+        {
+            return View();
+        }
     }
 }

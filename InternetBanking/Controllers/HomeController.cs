@@ -1,4 +1,5 @@
 ﻿using InternetBanking.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
@@ -9,14 +10,15 @@ using System.Threading.Tasks;
 
 namespace InternetBanking.Controllers
 {
+    [Authorize]
     public class HomeController : Controller
     {
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController()
         {
 
         }
 
-        public IActionResult DashbIoIardAdmin()
+        public IActionResult DashboardAdmin()
         {
             return View();
         }
