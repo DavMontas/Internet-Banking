@@ -6,11 +6,13 @@
 
 <div class="container-fluid">
     <div class="row">
-        <div class="col-6 offset-3">
-            <div class="card">
-                <div class="card-header bg-dark text-light">
-                    <h4>Registra un nuevo usuarios</h4>
-                </div>
+        <section class="col-10 mx-auto bg-primary rounded-3 text-white text-center p-3 my-5">
+            <h3 class="display-8 fw-normal text-uppercase fw-bolder m-0">
+                Banco BDM
+            </h3>
+        </section>
+        <div class="col-6 mx-auto">
+            <div class="card shadow">
                 <div class="card-body">
                     @if (Model.HasError)
                     {
@@ -19,52 +21,63 @@
                             <button type="button" class="btn-close" data-bs-dimiss="alert" aria-label="Close"></button>
                         </div>
                     }
-                <form asp-controller="User" asp-action="Register" method="post">
-                    <div class="mb-3">
-                        <label asp-for="FirstName" class="form-label">Nombre: </label>
-                        <input asp-for="FirstName" class="form-control" />
-                        <span asp-validation-for="FirstName" class="text-danger"></span>
-                    </div>
+                    <form asp-controller="User" asp-action="Register" method="post" class="row gap-3 my-3">
+                        <div class="">
+                            <h3 class="text-muted">
+                                Registro
+                            </h3>
+                        </div>
+                        <section class="col-5 mx-auto">
+                            <div class="form-floating mb-3">
+                                <input asp-for="FirstName" class="form-control" placeholder="Nombre"/>
+                                <label asp-for="FirstName"> Nombre </label>
+                                <span asp-validation-for="FirstName" class="text-danger"></span>
+                            </div>
 
-                    <div class="mb-3">
-                        <label asp-for="LastName" class="form-label">Apellido: </label>
-                        <input asp-for="LastName" class="form-control" />
-                        <span asp-validation-for="LastName" class="text-danger"></span>
-                    </div>
+                            <div class="form-floating mb-3">
+                                <input asp-for="LastName" class="form-control" placeholder="Apellido"/>
+                                <label asp-for="LastName" class="form-label">Apellido </label>
+                                <span asp-validation-for="LastName" class="text-danger"></span>
+                            </div>
 
-                    <div class="mb-3">
-                        <label asp-for="Email" class="form-label">Correo: </label>
-                        <input asp-for="Email" class="form-control" />
-                        <span asp-validation-for="Email" class="text-danger"></span>
-                    </div>
+                            <div class="form-floating mb-3">
+                                <input asp-for="Email" class="form-control" placeholder="Correo"/>
+                                <label asp-for="Email" class="form-label">Correo </label>
+                                <span asp-validation-for="Email" class="text-danger"></span>
+                            </div>
+                        </section>
+                        <section class="col-5 mx-auto">
+                            <div class="form-floating mb-3">
+                                <input asp-for="UserName" class="form-control" placeholder="Usuario"/>
+                                <label asp-for="UserName" class="form-label"> Usuario </label>
+                                <span asp-validation-for="UserName" class="text-danger"></span>
+                            </div>
 
-                    <div class="mb-3">
-                        <label asp-for="UserName" class="form-label">Nombre de Usuario: </label>
-                        <input asp-for="UserName" class="form-control" />
-                        <span asp-validation-for="UserName" class="text-danger"></span>
-                    </div>
+                            <div class="form-floating mb-3">
+                                <input asp-for="Password" class="form-control" placeholder="Contraseña"/>
+                                <label asp-for="Password" class="form-label">Contraseña </label>
+                                <span asp-validation-for="Password" class="text-danger"></span>
+                            </div>
 
-                    <div class="mb-3">
-                        <label asp-for="Password" class="form-label">Contraseña: </label>
-                        <input asp-for="Password" class="form-control" />
-                        <span asp-validation-for="Password" class="text-danger"></span>
-                    </div>
+                            <div class="form-floating mb-3">
+                                <input asp-for="ConfirmPassword" class="form-control" placeholder="Confirmar Contraseña"/>
+                                <label asp-for="ConfirmPassword" class="form-label">Confirmar Contraseña </label>
+                                <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+                            </div>
 
-                    <div class="mb-3">
-                        <label asp-for="ConfirmPassword" class="form-label">Confirmar Contraseña: </label>
-                        <input asp-for="ConfirmPassword" class="form-control" />
-                        <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
-                    </div>
-
-                    <div class="mb-3">
-                        <label asp-for="PhoneNumber" class="form-label">Telefono: </label>
-                        <input asp-for="PhoneNumber" class="form-control" />
-                        <span asp-validation-for="PhoneNumber" class="text-danger"></span>
-                    </div>
-
-                    <a asp-controller="User" asp-action="Index" class="btn btn-warning">Volver atrás</a>
-                    <button type="submit" class="btn btn-primary">Guardar</button>
-                </form>
+                        </section>
+                        <section class="col-11 mx-auto">
+                            <div class="form-floating mb-3">
+                                <input asp-for="PhoneNumber" class="form-control" placeholder="Telefono"/>
+                                <label asp-for="PhoneNumber" class="form-label">Telefono </label>
+                                <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+                            </div>
+                        </section>
+                        <div class="col-11 mx-auto">
+                            <button type="submit" class="btn btn-primary btn-lg w-100 mt-2">Guardar</button>
+                            <a asp-controller="User" asp-action="Index" class="btn btn-light w-100 mt-2">Volver atrás</a>
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>

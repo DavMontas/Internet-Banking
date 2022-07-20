@@ -40,26 +40,24 @@
                     <input class="form-control" asp-for="Password" placeholder="*****">
                     <label asp-for="Password">Contraseña</label>
                 </div>
-                <div class="form-group my-3">
+                <div class="form-group mt-3">
                     <button type="submit" class="btn btn-primary btn-lg w-100">Acceder</button>
                 </div>
-
             </div>
 
-            <div class="col-3 mx-auto">
-                <a asp-controller="User" asp-action="Register" class="btn btn-outline-primary w-100">
-                    Registrar
+            <div class="col-8 mx-auto">
+                <a asp-controller="User" asp-action="ForgotPassword" class="btn btn-link mb-2 w-100">
+                    ¿Olvidaste tu contraseña?
                 </a>
-
             </div>
-            <a asp-controller="User" asp-action="ForgotPassword" class="btn btn-warning">Olvidé mi contraseña</a>
+            
         </form>
     </div>
 </div>
 
 
 <!-- Button trigger modal -->
-<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+<button type="button" class="btn btn-primary d-none" data-bs-toggle="modal" data-bs-target="#exampleModal">
     Advertencia
 </button>
 
