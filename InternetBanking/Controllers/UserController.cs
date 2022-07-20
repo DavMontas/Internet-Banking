@@ -1,5 +1,4 @@
 ﻿using InternetBanking.Core.Application.Dtos.Account;
-using InternetBanking.Core.Application.Enums;
 using InternetBanking.Core.Application.Helpers;
 using InternetBanking.Core.Application.Interfaces.Services;
 using InternetBanking.Core.Application.ViewModels.User;
@@ -36,12 +35,7 @@ namespace WebApp.InternetBanking.Controllers
             if (response != null && !response.HasError)
             {
                 HttpContext.Session.Set<AuthenticationResponse>("user", response);
-                var rol = response.Roles.Contains(Roles.Admin.ToString());
-                if (rol)
-                {
-                    return RedirectToRoute(new { controller = "Home", action = "DashboardAdmin" });
-                }
-                return RedirectToRoute(new {controller = "Home", action = "DashboardClient" });
+                return RedirectToRoute(new { controller = "Home", action = "Index" });
             }
             else
             {

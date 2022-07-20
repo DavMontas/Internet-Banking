@@ -1,5 +1,4 @@
 ﻿using InternetBanking.Core.Domain.Common;
-using InternetBanking.Infrastructure.Identity.Entities;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -15,10 +14,6 @@ namespace InternetBanking.Infrastructure.Persistence.Context
         public AppDbContext(DbContextOptions<AppDbContext> options) : base(options) { }
 
         #region dbSets -->
-
-        public DbSet<User> User { get; set; }
-
-
 
         #endregion
 
@@ -46,15 +41,9 @@ namespace InternetBanking.Infrastructure.Persistence.Context
         protected override void OnModelCreating(ModelBuilder mb)
         {
             #region tables
-
-            mb.Entity<User>()
-                .ToTable("User");
-
             #endregion
 
             #region primary keys
-            mb.Entity<User>()
-            .HasKey(e => e.Id);
             #endregion
 
             #region relations
@@ -69,29 +58,13 @@ namespace InternetBanking.Infrastructure.Persistence.Context
 
             #region property configurations
 
-            #region 'Users'
-            mb.Entity<User>()
-                .Property(e => e.UserName)
-                .IsRequired()
-                .HasMaxLength(100);
+            //#region 'Users'
+            //mb.Entity<User>()
+            //    .Property(e => e.UserName)
+            //    .IsRequired()
+            //    .HasMaxLength(100);
 
-            mb.Entity<User>()
-                .Property(e => e.FirstName)
-                .IsRequired();
-
-            mb.Entity<User>()
-                .Property(e => e.Password)
-                .IsRequired();
-
-            mb.Entity<User>()
-                .Property(e => e.Email)
-                .IsRequired();
-
-            mb.Entity<User>()
-                .Property(e => e.PhoneNumber)
-                .IsRequired();
-
-            #endregion
+            //#endregion
 
             #endregion
         }

@@ -9,6 +9,10 @@ namespace InternetBanking.Core.Application.ViewModels.User
 {
     public class UserSaveViewModel
     {
+        public string Id { get; set; }
+        [Required(ErrorMessage = "Field is required")]
+        [DataType(DataType.Text)]
+        public string IdCard { get; set; }
         [Required(ErrorMessage = "Field is required")]
         [DataType(DataType.Text)]
         public string FirstName { get; set; }
@@ -37,7 +41,9 @@ namespace InternetBanking.Core.Application.ViewModels.User
         [DataType(DataType.Text)]
         [Required(ErrorMessage = "Phone is required")]
         public string PhoneNumber { get; set; }
+        public string TypeUser { get; set; }
         public bool HasError { get; set; }
         public string Error { get; set; }
+        public bool IsVerified { get; set; } = false;
     }
 }

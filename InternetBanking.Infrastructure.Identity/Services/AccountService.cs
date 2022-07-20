@@ -59,11 +59,14 @@ namespace InternetBanking.Infrastructure.Identity.Services
             }
 
             res.Id = user.Id;
+            res.IdCard = user.IdCard;
+            res.FirstName = user.FirstName;
+            res.LastName = user.LastName;
             res.Email = user.Email;
             res.UserName = user.UserName;
             var listRoles = await _userManager.GetRolesAsync(user).ConfigureAwait(false);
             res.Roles = listRoles.ToList();
-            res.IsVerified = user.EmailConfirmed;
+            res.IsVerified = user.IsVerified;
 
             return res;
         }
@@ -98,10 +101,13 @@ namespace InternetBanking.Infrastructure.Identity.Services
 
             var user = new ApplicationUser
             { 
+                IdCard = req.IdCard,
                 Email = req.Email,
                 FirstName = req.FirstName,
                 LastName = req.LastName,
-                UserName = req.UserName
+                UserName = req.UserName,
+                PhoneNumber = req.PhoneNumber,
+                IsVerified = req.IsVerified
             };
 
             var result = await _userManager.CreateAsync(user, req.Password);
