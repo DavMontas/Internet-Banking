@@ -1,0 +1,36 @@
+﻿@model InternetBanking.Core.Application.ViewModels.User.UserSaveViewModel
+@{
+    bool mode = Model.IsVerified == false ? false : true;
+    ViewData["Title"] = "Active User";
+}
+
+<div class="container-fluid">
+    <div class="d-flex justify-content-center">
+        <div class="col-6">
+            <div class="card my-5">
+                <div class="card-header bg-danger text-light">
+                    <h3>
+                       @(mode ? $"Esta seguro que desea desactivar este usuario: {@Model.UserName}?" : $"Esta seguro que desea activar este usuario: {@Model.UserName}?")
+                    </h3>
+                </div>
+                <div class="card-body text-center">
+                    <form method="post" asp-controller="Home" asp-action="ActiveUser">
+                        <input type="hidden" asp-for="Id" />
+
+                        @if (mode)
+                        {
+                            <button type="submit" class="btn btn-outline-danger me-3">Desactivar</button>
+                        }
+                        else
+                        {
+                            <button type="submit" class="btn btn-outline-danger me-3">Activar</button>
+                        }
+                        <a asp-controller="Home" asp-action="UserManagement" class="btn btn-outline-secondary text-dark">Cancelar</a>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+

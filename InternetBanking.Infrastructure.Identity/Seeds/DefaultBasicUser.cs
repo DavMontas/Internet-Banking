@@ -18,6 +18,7 @@ namespace InternetBanking.Infrastructure.Identity.Seeds
             defaultUser.Email = "DefaultBasicUser@gmail.com";
             defaultUser.FirstName = "Chocolechi";
             defaultUser.LastName = "Negrito";
+            defaultUser.IsVerified = true;
             defaultUser.EmailConfirmed = true;
             defaultUser.PhoneNumberConfirmed = true;
 

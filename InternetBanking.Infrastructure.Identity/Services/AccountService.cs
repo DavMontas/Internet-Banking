@@ -5,6 +5,7 @@ using InternetBanking.Core.Application.Interfaces.Services;
 using InternetBanking.Infrastructure.Identity.Entities;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.WebUtilities;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -51,10 +52,10 @@ namespace InternetBanking.Infrastructure.Identity.Services
                 res.Error = $"Invalid Credentials for {req.Email}.";
                 return res;
             }
-            if (!user.EmailConfirmed)
+            if (!user.IsVerified)
             {
                 res.HasError = true;
-                res.Error = $"Account not confirmed for {req.Email}.";
+                res.Error = $"Cuenta inactiva comuniquese con el administrador.";
                 return res;
             }
 
@@ -119,18 +120,92 @@ namespace InternetBanking.Infrastructure.Identity.Services
             }
 
             await _userManager.AddToRoleAsync(user, Roles.Basic.ToString());
-
-            var verificationUri = await SendVerificationEmailUri(user, origin);
             await _emailService.SendAsync(new EmailRequest()
             { 
                 To = user.Email,
-                Body = $"Please confirm your account visiting this URL {verificationUri}",
-                Subject = "Confirm Registration"
+                Body = $"Se ha creado su cuenta con exito, ahora solo debe esperar que el administrador active su cuenta!!",
+                Subject = "Bienevenido a BDM Banking"
             });
 
             return res;
         }
 
+        //method for update an user
+        public async Task<UpdateResponse> UpdateUserAsync(UpdateRequest req, string id)
+        {
+            UpdateResponse res = new();
+            res.HasError = false;
+            ApplicationUser user = await _userManager.FindByIdAsync(id);
+            if (user != null)
+            {
+                user.IdCard = req.IdCard;
+                user.FirstName = req.FirstName;
+                user.LastName = req.LastName;
+                user.UserName = req.UserName;
+                user.Email = req.Email;
+                user.PhoneNumber = req.PhoneNumber;
+                user.PasswordHash = _userManager.PasswordHasher.HashPassword(user, req.Password);
+
+                var userUpdated = await _userManager.UpdateAsync(user);
+                if (!userUpdated.Succeeded)
+                {
+                    res.HasError = true;
+                    res.Error = "Error when trying update the user";
+                    return res;
+                    
+                }
+                return res;
+            }
+            else
+            {
+                res.HasError = true;
+                res.Error = $"No accounts exists with this id: {id}";
+                return res;
+            }
+        }
+
+        //method to activate an user
+        public async Task<UpdateResponse> ActivedUserAsync(string id)
+        {
+            UpdateResponse res = new();
+            res.HasError = false;
+            ApplicationUser user = await _userManager.FindByIdAsync(id);
+            if (user != null)
+            {
+                if (user.IsVerified)
+                {
+                    user.IsVerified = false;
+                    var userUpdated = await _userManager.UpdateAsync(user);
+                    if (!userUpdated.Succeeded)
+                    {
+                        res.HasError = true;
+                        res.Error = "Error when trying desactive the user";
+                        return res;
+
+                    }
+                    return res;
+                }
+                else
+                {
+                    user.IsVerified = true;
+                    var userUpdated = await _userManager.UpdateAsync(user);
+                    if (!userUpdated.Succeeded)
+                    {
+                        res.HasError = true;
+                        res.Error = "Error when trying desactive the user";
+                        return res;
+
+                    }
+                    return res;
+                }
+            }
+            else
+            {
+                res.HasError = true;
+                res.Error = $"No accounts exists with this id: {id}";
+                return res;
+            }
+        }
         //method to confirm the account of the user
         public async Task<string> ConfirmAccountAsync(string userId, string token)
         {
@@ -197,6 +272,52 @@ namespace InternetBanking.Infrastructure.Identity.Services
                 return res;
             }
 
+            return res;
+        }
+
+        //Method to get all users
+        public async Task<List<AuthenticationResponse>> GetAllUsers()
+        {
+            List<AuthenticationResponse> res = new();
+            List<ApplicationUser> users = new();
+            users = await _userManager.Users.ToListAsync();
+            return users.Select(user => new AuthenticationResponse
+            {
+                Id = user.Id,
+                IdCard = user.IdCard,
+                Email = user.Email,
+                FirstName = user.FirstName,
+                LastName = user.LastName,
+                UserName = user.UserName,
+                PhoneNumber = user.PhoneNumber,
+                IsVerified = user.IsVerified
+
+            }).ToList();
+        }
+
+        //Method to get all users
+        public async Task<AuthenticationResponse> GetUserById(string id)
+        {
+            AuthenticationResponse res = new();
+            ApplicationUser user = new();
+            user = await _userManager.FindByIdAsync(id);
+
+            if (user != null)
+            {
+                res.Id = user.Id;
+                res.IdCard = user.IdCard;
+                res.Email = user.Email;
+                res.FirstName = user.FirstName;
+                res.LastName = user.LastName;
+                res.UserName = user.UserName;
+                res.PhoneNumber = user.PhoneNumber;
+                res.IsVerified = user.IsVerified;
+
+                return res;
+            }
+
+            res.HasError = true;
+            res.Error = $"Not user exists with this id: {id}";
             return res;
         }
 

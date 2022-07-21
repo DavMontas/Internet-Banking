@@ -1,0 +1,60 @@
+﻿@using InternetBanking.Core.Application.Dtos.Account
+@{
+}
+
+<div class="row mt-3">
+    <div class="col-8 mx-auto">
+        <h2 class="text-center my-2">Aqui agregaremos la lista de usuarios</h2> 
+
+        @if (ViewBag.Users == null)
+        {
+            <h2>No existen registros de usuarios</h2>
+        }
+        else
+        {
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th scope="col">FirsName</th>
+                        <th scope="col">LastName</th>
+                        <th scope="col">Username</th>
+                        <th scope="col">IsActive</th>
+                        <th scope="col">Acciones</th>
+
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (AuthenticationResponse item in ViewBag.Users)
+                    {
+                        <tr>
+                            <td>@item.FirstName</td>
+                            <td>@item.LastName</td>
+                            <td>@item.UserName</td>
+                            <td>@item.IsVerified</td>
+                            <td>
+                                <div class="d-flex justify-content-center">
+                                    <a asp-controller="Home" asp-action="UpdateUser" asp-route-id="@item.Id" class="btn btn-sm btn-outline-info me-4">Editar</a>
+
+                                    @if (item.IsVerified)
+                                    {
+                                        <a asp-controller="Home" asp-action="ActiveUser" asp-route-id="@item.Id" class="btn btn-sm btn-outline-danger">Desactivar</a>
+                                    }
+                                    else
+                                    {
+                                        <a asp-controller="Home" asp-action="ActiveUser" asp-route-id="@item.Id" class="btn btn-sm btn-outline-danger">Activar</a>
+                                    }
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
+        
+    </div>
+    <div class="col-4 mx-auto">
+        <a asp-controller="Home" asp-action="Register" class="btn btn-outline-primary w-100">
+            Agregar Nuevo Usuario
+        </a>
+    </div>
+</div>

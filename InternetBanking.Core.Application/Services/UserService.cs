@@ -31,7 +31,6 @@ namespace InternetBanking.Core.Application.Services
             return response;
         }
 
-
         public async Task SignOutAsync()
         {
             await _accountService.SignOutAsync();
@@ -42,6 +41,30 @@ namespace InternetBanking.Core.Application.Services
         {
             RegisterRequest request = _mapper.Map<RegisterRequest>(vm);
             return await _accountService.RegisterBasicUserAsync(request, origin);
+        }
+
+        public async Task<UpdateResponse> UpdateUserAsync(UserSaveViewModel vm, string id)
+        {
+            UpdateRequest req = _mapper.Map<UpdateRequest>(vm);
+            return await _accountService.UpdateUserAsync(req, id);
+        }
+
+        public async Task<UpdateResponse> ActivedUserAsync(string id)
+        {
+            return await _accountService.ActivedUserAsync(id);
+        }
+
+        public async Task<List<AuthenticationResponse>> GetAllUsers()
+        {
+            List<AuthenticationResponse> users = await _accountService.GetAllUsers();
+            return users;
+        }
+
+        public async Task<UserSaveViewModel> GetUserById(string id)
+        {
+            AuthenticationResponse user = await _accountService.GetUserById(id);
+            UserSaveViewModel userMap = _mapper.Map<UserSaveViewModel>(user);
+            return userMap;
         }
 
         public async Task<string> ConfirmEmailAsync(string userId, string token)
@@ -60,8 +83,6 @@ namespace InternetBanking.Core.Application.Services
             ResetPasswordRequest request = _mapper.Map<ResetPasswordRequest>(vm);
             return await _accountService.ResetPasswordAsync(request);
         }
-
-
 
     }
 }

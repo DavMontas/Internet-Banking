@@ -20,7 +20,17 @@ namespace InternetBanking.Core.Application.Mappings
                 .ForMember(x => x.Error, opt => opt.Ignore())
                 .ReverseMap();
 
+            CreateMap<AuthenticationResponse, UserSaveViewModel>()
+                .ForMember(x => x.TypeUser, opt => opt.Ignore())
+                .ReverseMap()
+                .ForMember(x => x.Roles, opt => opt.Ignore());
+
             CreateMap<RegisterRequest, UserSaveViewModel>()
+                .ForMember(x => x.HasError, opt => opt.Ignore())
+                .ForMember(x => x.Error, opt => opt.Ignore())
+                .ReverseMap();
+
+            CreateMap<UpdateRequest, UserSaveViewModel>()
                 .ForMember(x => x.HasError, opt => opt.Ignore())
                 .ForMember(x => x.Error, opt => opt.Ignore())
                 .ReverseMap();

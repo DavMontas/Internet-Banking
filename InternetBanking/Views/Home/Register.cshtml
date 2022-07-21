@@ -1,6 +1,7 @@
 ﻿@using InternetBanking.Core.Application.ViewModels.User
 @model UserSaveViewModel
 @{
+    bool editMode = Model.Id == null || Model.Id == "" ? false : true;
     ViewData["Title"] = "Register";
 }
 
@@ -21,27 +22,33 @@
                             <button type="button" class="btn-close" data-bs-dimiss="alert" aria-label="Close"></button>
                         </div>
                     }
-                    <form asp-controller="User" asp-action="Register" method="post" class="row gap-3 my-3">
+                    <form asp-controller="Home" asp-action=@(editMode ? "UpdateUser" : "Register") method="post" class="row gap-3 my-3">
                         <div class="">
                             <h3 class="text-muted">
-                                Registro
+                                @(editMode ? $"Editando el usuario: {Model.UserName}" : "Creando un nuevo usuario")
                             </h3>
                         </div>
                         <section class="col-5 mx-auto">
                             <div class="form-floating mb-3">
-                                <input asp-for="FirstName" class="form-control" placeholder="Nombre"/>
+                                <input asp-for="IdCard" class="form-control" placeholder="Cedula" />
+                                <label asp-for="IdCard"> Cedula </label>
+                                <span asp-validation-for="IdCard" class="text-danger"></span>
+                            </div>
+
+                            <div class="form-floating mb-3">
+                                <input asp-for="FirstName" class="form-control" placeholder="Nombre" />
                                 <label asp-for="FirstName"> Nombre </label>
                                 <span asp-validation-for="FirstName" class="text-danger"></span>
                             </div>
 
                             <div class="form-floating mb-3">
-                                <input asp-for="LastName" class="form-control" placeholder="Apellido"/>
+                                <input asp-for="LastName" class="form-control" placeholder="Apellido" />
                                 <label asp-for="LastName" class="form-label">Apellido </label>
                                 <span asp-validation-for="LastName" class="text-danger"></span>
                             </div>
 
                             <div class="form-floating mb-3">
-                                <input asp-for="Email" class="form-control" placeholder="Correo"/>
+                                <input asp-for="Email" class="form-control" placeholder="Correo" />
                                 <label asp-for="Email" class="form-label">Correo </label>
                                 <span asp-validation-for="Email" class="text-danger"></span>
                             </div>
@@ -73,9 +80,10 @@
                                 <span asp-validation-for="PhoneNumber" class="text-danger"></span>
                             </div>
                         </section>
+                        <input type="hidden" asp-for="Id" name="Id" value="@Model.Id" />
                         <div class="col-11 mx-auto">
                             <button type="submit" class="btn btn-primary btn-lg w-100 mt-2">Guardar</button>
-                            <a asp-controller="User" asp-action="Index" class="btn btn-light w-100 mt-2">Volver atrás</a>
+                            <a asp-controller="Home" asp-action="UserManagement" class="btn btn-light w-100 mt-2">Volver atrás</a>
                         </div>
                     </form>
                 </div>

@@ -1,6 +1,8 @@
 ﻿using InternetBanking.Core.Application.Dtos.Account;
 using InternetBanking.Core.Application.Enums;
 using InternetBanking.Core.Application.Helpers;
+using InternetBanking.Core.Application.Interfaces.Services;
+using InternetBanking.Core.Application.ViewModels.User;
 using InternetBanking.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -17,9 +19,10 @@ namespace InternetBanking.Controllers
     [Authorize]
     public class HomeController : Controller
     {
-        public HomeController()
+        private readonly IUserService _svc;
+        public HomeController(IUserService svc)
         {
-
+            _svc = svc;
         }
 
         public IActionResult Index()
@@ -39,9 +42,68 @@ namespace InternetBanking.Controllers
             return View();
         }
 
+        [ServiceFilter(typeof(ClientAuthorize))]
         public IActionResult DashboardClient()
         {
             return View();
+        }
+
+        public async Task<IActionResult> UserManagement()
+        {
+            ViewBag.Users = await _svc.GetAllUsers();
+            return View();
+        }
+
+        [ServiceFilter(typeof(AdminAuthorize))]
+        public IActionResult Register()
+        {
+            return View(new UserSaveViewModel());
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Register(UserSaveViewModel vm)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(vm);
+            }
+            var origin = Request.Headers["origin"];
+            RegisterResponse response = await _svc.RegisterAsync(vm, origin);
+            if (response.HasError)
+            {
+                vm.HasError = response.HasError;
+                vm.Error = response.Error;
+                return View(vm);
+            }
+
+            return RedirectToRoute(new { controller = "Home", action = "UserManagement" });
+        }
+
+        public async Task<IActionResult> UpdateUser(string id)
+        {
+            UserSaveViewModel vm = await _svc.GetUserById(id);
+            return View("Register", vm);
+        }
+        [HttpPost]
+        public async Task<IActionResult> UpdateUser(UserSaveViewModel vm)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View("Register", vm);
+            }
+            await _svc.UpdateUserAsync(vm, vm.Id);
+            return RedirectToRoute(new { controller = "Home", action = "UserManagement" });
+        }
+
+        public async Task<IActionResult> ActiveUser(string id)
+        {
+            return View("ActiveUser", await _svc.GetUserById(id));
+        }
+        [HttpPost]
+        public async Task<IActionResult> ActiveUser(UserSaveViewModel vm)
+        {
+            await _svc.ActivedUserAsync(vm.Id);
+            return RedirectToRoute(new { controller = "Home", action = "UserManagement" });
         }
     }
 }

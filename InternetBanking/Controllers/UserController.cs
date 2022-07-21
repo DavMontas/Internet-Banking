@@ -53,32 +53,6 @@ namespace WebApp.InternetBanking.Controllers
         }
 
         [ServiceFilter(typeof(LoginAuthorize))]
-        public IActionResult Register()
-        {
-            return View(new UserSaveViewModel());
-        }
-
-        [ServiceFilter(typeof(LoginAuthorize))]
-        [HttpPost]
-        public async Task<IActionResult> Register(UserSaveViewModel vm)
-        {
-            if (!ModelState.IsValid)
-            {
-                return View(vm);
-            }
-            var origin = Request.Headers["origin"];
-            RegisterResponse response = await _svc.RegisterAsync(vm,origin);
-            if (response.HasError)
-            {
-                vm.HasError = response.HasError;
-                vm.Error = response.Error;
-                return View(vm);
-            }
-
-            return RedirectToRoute(new { controller = "User", action = "Index" });
-        }
-
-        [ServiceFilter(typeof(LoginAuthorize))]
         public async Task<IActionResult> ConfirmEmail(string userId, string token)
         {
             string response = await _svc.ConfirmEmailAsync(userId, token);
@@ -134,9 +108,11 @@ namespace WebApp.InternetBanking.Controllers
             }
             return RedirectToRoute(new { controller = "User", action = "Index" });
         }
+
         public IActionResult AccessDenied()
         {
             return View();
         }
+        
     }
 }
