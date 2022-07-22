@@ -1,126 +1,92 @@
-﻿@{
+﻿@using Microsoft.AspNetCore.Http
+@using InternetBanking.Core.Application.Dtos.Account
+@using InternetBanking.Core.Application.Helpers
+@inject IHttpContextAccessor httpContextAccesor
+@{
+    var user = httpContextAccesor.HttpContext.Session.Get<AuthenticationResponse>("user");
 }
 
-<div class="">
+<div class="row">
 
-    <div class="d-flex flex-column flex-shrink-0 p-3 text-white bg-dark" style="width: 280px;">
-    <a href="/" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-white text-decoration-none">
-      <svg class="bi pe-none me-2" width="40" height="32"><use xlink:href="#bootstrap"></use></svg>
-      <span class="fs-4">Sidebar</span>
-    </a>
+  <section class="col-3 d-flex flex-column flex-shrink-0 p-3 text-white bg-primary vh-100">
+    <h3 href="/" class="text-center text-decoration-none">
+      <span class="fs-4 fw-bold text-uppercase w-100">Banco BDM</span>
+    </h3>
     <hr>
-    <ul class="nav nav-pills flex-column mb-auto">
-      <li class="nav-item">
-        <a href="#" class="nav-link active" aria-current="page">
+    <ul class="nav nav-pills flex-column">
+      <li>
+        <a href="#" class="nav-link btn-primary fs-5">
           Home
         </a>
       </li>
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle btn-primary fs-5" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="true">
+            Pagos
+        </a>
+        <div class="dropdown-menu dropdown-menu-dark shadow" style="position: absolute; inset: 0px auto auto 0px; margin: 0px; transform: translate3d(0px, 42px, 0px);" data-popper-placement="bottom-start">
+          <a class="dropdown-item" href="#">Expreso</a>
+          <a class="dropdown-item" href="#">Tarjeta de Crédito</a>
+          <a class="dropdown-item" href="#">Préstamos</a>
+          <a class="dropdown-item" href="#">Beneficiarios</a>
+        </div>
+      </li>
       <li>
-        <a href="#" class="nav-link text-white">
-          Dashboard
+        <a href="#" class="nav-link btn-primary fs-5">
+          Beneficiario
         </a>
       </li>
       <li>
-        <a href="#" class="nav-link text-white">
-          Orders
+        <a href="#" class="nav-link btn-primary fs-5">
+          Avance de Efectivo
         </a>
       </li>
       <li>
-        <a href="#" class="nav-link text-white">
-          Products
-        </a>
-      </li>
-      <li>
-        <a href="#" class="nav-link text-white">
-          Customers
+        <a href="#" class="nav-link btn-primary fs-5">
+          Transferencia
         </a>
       </li>
     </ul>
     <hr>
     <div class="dropdown">
-      <a href="#" class="d-flex align-items-center text-white text-decoration-none dropdown-toggle" id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">
-        <img src="https://github.com/mdo.png" alt="" width="32" height="32" class="rounded-circle me-2">
-        <strong>mdo</strong>
+      <a href="#" class="d-flex px-3 align-items-center text-white text-decoration-none dropdown-toggle mt-3" id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">
+        <img src="https://github.com/Chocolechi.png" alt="" width="32" height="32" class="rounded-circle me-2">
+        <strong>@user.UserName</strong>
       </a>
       <ul class="dropdown-menu dropdown-menu-dark text-small shadow" aria-labelledby="dropdownUser1" style="">
-        <li><a class="dropdown-item" href="#">New project...</a></li>
-        <li><a class="dropdown-item" href="#">Settings</a></li>
-        <li><a class="dropdown-item" href="#">Profile</a></li>
-        <li><hr class="dropdown-divider"></li>
-        <li><a class="dropdown-item" href="#">Sign out</a></li>
+        <li>
+            <a asp-controller="User" asp-action="Logout" class="dropdown-item w-100">Cerrar Sesión</a>
+        </li>
       </ul>
     </div>
-  </div>
+  </section>
 
-    <div class="row bg-light rounded p-3 my-5">
-        <section class="w-100 d-flex justify-content-between align-items-center">
-            <h3 class="fw-bold">Dashboard</h3>
-            <a 
-                class="btn btn-primary" 
-                data-bs-toggle="offcanvas" 
-                href="#offcanvasExample" r
-                ole="button" aria-controls="offcanvasExample"
-            >
-                Menu
-            </a>
+  <section class="col-9 p-0">
+    <section class="w-100 bg-light p-3 mb-5">
+      <h3 class="display-8 fw-bold text-start fw-bolder m-2 w-100">
+        Dashboard
+      </h3>
+    </section>
+    <div class="row mt-5">
+        <section class="col-9 mx-auto rounded-3 shadow p-4">
+            <ul class="list-group rounded p-3">
+              <li class="list-group-item list-group-item-action d-flex justify-content-between align-items-center active fs-4">
+                Productos
+              </li>
+              <li class="list-group-item d-flex justify-content-between align-items-center text-muted fs-5">
+                Cuenta de Ahorro
+                <span class="badge bg-primary rounded-pill fs-6 p-3">RD$15,000</span>
+              </li>
+              <li class="list-group-item d-flex justify-content-between align-items-center text-muted fs-5">
+                Tarjeta de Crédito
+                <span class="badge bg-warning rounded-pill fs-6 p-3">RD$29,877</span>
+              </li>
+              <li class="list-group-item d-flex justify-content-between align-items-center text-muted fs-5">
+                Préstamo
+                <span class="badge bg-danger rounded-pill fs-6 p-3">RD$3,670</span>
+              </li>
+            </ul>
         </section>
     </div>
-    <div class="row gap-5 justify-content-center align-items-center">
-        <section class="col-4 shadow">
-            <div class="d-flex flex-column text-center gap-4 p-3">
-                <h6 class="fw-bold text-uppercase mt-2">Cantidad de transacciones</h6>
-                <div class="d-flex justify-content-around align-items-center">
-                    <section class="d-flex flex-column align-items-center gap-2">
-                        <h6 class="text-uppercase text-muted fw-bold">Hoy</h6>
-                        <span class="badge bg-light rounded-pill fs-6 px-3">30</span>
-                    </section>
-                    <section class="d-flex flex-column align-items-center gap-2">
-                        <h6 class="text-uppercase fw-bold">Total</h6>
-                        <span class="badge bg-primary rounded-pill fs-6 px-3">540</span>
-                    </section>
-                </div>
-            </div>
-        </section>
-        <section class="col-3 shadow">
-            <div class="d-flex flex-column text-center gap-4 p-3">
-                <h6 class="fw-bold text-uppercase mt-2">Cantidad de pagos</h6>
-                <div class="d-flex justify-content-around align-items-center">
-                    <section class="d-flex flex-column align-items-center gap-2">
-                        <h6 class="text-uppercase text-muted fw-bold">Hoy</h6>
-                        <span class="badge bg-light rounded-pill fs-6 px-3">30</span>
-                    </section>
-                    <section class="d-flex flex-column align-items-center gap-2">
-                        <h6 class="text-uppercase fw-bold">Total</h6>
-                        <span class="badge bg-primary rounded-pill fs-6 px-3">540</span>
-                    </section>
-                </div>
-            </div>
-        </section>
-        <section class="col-3 shadow">
-            <div class="d-flex flex-column text-center gap-4 p-3">
-                <h6 class="fw-bold text-uppercase mt-2 w-100">Estado de clientes</h6>
-                <div class="d-flex justify-content-around align-items-center">
-                    <section class="d-flex flex-column align-items-center gap-2">
-                        <h6 class="text-uppercase text-muted fw-bold">Activos</h6>
-                        <span class="badge bg-success rounded-pill fs-6 px-3">30</span>
-                    </section>
-                    <section class="d-flex flex-column align-items-center gap-2">
-                        <h6 class="text-uppercase fw-bold">Inactivos</h6>
-                        <span class="badge bg-danger rounded-pill fs-6 px-3">540</span>
-                    </section>
-                </div>
-            </div>
-        </section>
-        <section class="col-9 shadow">
-            <div class="d-flex flex-column gap-4 p-4 mt-3">
-                <h6 class="fw-bold text-uppercase">Cantidad de productos asignados al cliente</h6>
-                <div class="d-flex align-items-center gap-5">
-                    <section class="d-flex justify-content-center align-items-center gap-4">
-                        <h6 class="text-uppercase fw-bold m-0">Total</h6>
-                        <span class="badge bg-primary rounded-pill fs-6 px-5">53</span>
-                    </section>
-                </div>
-            </div>
-        </section>
-    </div>
+  </section>
+
 </div>

@@ -1,10 +1,16 @@
-﻿@using Microsoft.AspNetCore.Http
+﻿@using InternetBanking.Core.Application.Enums
+@using Microsoft.AspNetCore.Http
 @using InternetBanking.Core.Application.Dtos.Account
 @using InternetBanking.Core.Application.Helpers
 @using InternetBanking.Core.Application.ViewModels.User
 @inject IHttpContextAccessor httpContextAccesor
 @{
     var user = httpContextAccesor.HttpContext.Session.Get<AuthenticationResponse>("user");
+    bool isAdmin = false;
+    if (user != null)
+    {
+        isAdmin = user.Roles.Contains(Roles.Admin.ToString());
+    }
 }
 
 <!DOCTYPE html>
@@ -19,29 +25,32 @@
 </head>
 <body>
     <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-primary bg-primary  border-bottom box-shadow">
-            <div class="container">
-                <a class="navbar-brand text-white" asp-area="" asp-controller="Home" asp-action="Index">Banco BDM</a>
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                    <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="text-white nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                        </li>
-                        @if (user != null)
-                        {
+        @if (isAdmin)
+        {        
+            <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-primary bg-primary  border-bottom box-shadow">
+                <div class="container">
+                    <a class="navbar-brand text-white" asp-area="" asp-controller="Home" asp-action="Index">Banco BDM</a>
+                    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                            aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                    <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+                        <ul class="navbar-nav flex-grow-1">
                             <li class="nav-item">
-                                <a class="text-white nav-link text-dark" asp-area="" asp-controller="User" asp-action="LogOut">Cerrar Sesion</a>
+                                <a class="text-white nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
                             </li>
-                        }
+                            @if (user != null)
+                            {
+                                <li class="nav-item">
+                                    <a class="text-white nav-link text-dark" asp-area="" asp-controller="User" asp-action="LogOut">Cerrar Sesion</a>
+                                </li>
+                            }
 
-                    </ul>
+                        </ul>
+                    </div>
                 </div>
-            </div>
-        </nav>
+            </nav>
+        }
     </header>
     <div class="min-vh-100 w-100">
         <main role="main" class="">
@@ -49,7 +58,7 @@
         </main>
     </div>
 
-    <footer class="border-top footer text-muted">
+    <footer class="bg-light border-top footer text-muted">
         <div class="container text-center">
             &copy; @DateTime.Now.Year - InternetBanking 
         </div>
@@ -57,7 +66,5 @@
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2" crossorigin="anonymous"></script>
-    @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>
