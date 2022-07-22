@@ -55,27 +55,36 @@
                         </section>
                         <section class="col-5 mx-auto">
                             <div class="form-floating mb-3">
-                                <input asp-for="UserName" class="form-control" placeholder="Usuario"/>
+                                <input asp-for="UserName" class="form-control" placeholder="Usuario" />
                                 <label asp-for="UserName" class="form-label"> Usuario </label>
                                 <span asp-validation-for="UserName" class="text-danger"></span>
                             </div>
 
                             <div class="form-floating mb-3">
-                                <input asp-for="Password" class="form-control" placeholder="Contraseña"/>
+                                <input asp-for="Password" class="form-control" placeholder="Contraseña" />
                                 <label asp-for="Password" class="form-label">Contraseña </label>
                                 <span asp-validation-for="Password" class="text-danger"></span>
                             </div>
 
                             <div class="form-floating mb-3">
-                                <input asp-for="ConfirmPassword" class="form-control" placeholder="Confirmar Contraseña"/>
+                                <input asp-for="ConfirmPassword" class="form-control" placeholder="Confirmar Contraseña" />
                                 <label asp-for="ConfirmPassword" class="form-label">Confirmar Contraseña </label>
                                 <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+                            </div>
+
+                            <div class="form-floating mb-3">
+                                <select class="form-select" aria-label="Default select example">
+                                    <option selected>Open this select menu</option>
+                                    <option value="1">Admin</option>
+                                    <option value="2">One</option>
+                                </select>
+
                             </div>
 
                         </section>
                         <section class="col-11 mx-auto">
                             <div class="form-floating mb-3">
-                                <input asp-for="PhoneNumber" class="form-control" placeholder="Telefono"/>
+                                <input asp-for="PhoneNumber" class="form-control" placeholder="Telefono" />
                                 <label asp-for="PhoneNumber" class="form-label">Telefono </label>
                                 <span asp-validation-for="PhoneNumber" class="text-danger"></span>
                             </div>
