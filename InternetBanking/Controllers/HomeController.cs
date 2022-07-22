@@ -81,6 +81,12 @@ namespace InternetBanking.Controllers
 
         public async Task<IActionResult> UpdateUser(string id)
         {
+            var user = HttpContext.Session.Get<AuthenticationResponse>("user");
+
+            if (id == id)
+            {
+                return RedirectToRoute(new {controller ="Home", action = "UserManagement" });
+            }
             UserSaveViewModel vm = await _svc.GetUserById(id);
             return View("Register", vm);
         }

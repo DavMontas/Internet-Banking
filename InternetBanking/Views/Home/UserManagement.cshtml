@@ -1,10 +1,14 @@
 ﻿@using InternetBanking.Core.Application.Dtos.Account
+@using InternetBanking.Core.Application.Helpers
+@using Microsoft.AspNetCore.Http
+@inject IHttpContextAccessor httpContextAccesor
 @{
+    var user = httpContextAccesor.HttpContext.Session.Get<AuthenticationResponse>("user");
 }
 
 <div class="row mt-3">
     <div class="col-8 mx-auto">
-        <h2 class="text-center my-2">Aqui agregaremos la lista de usuarios</h2> 
+        <h2 class="text-center my-2">Aqui agregaremos la lista de usuarios</h2>
 
         @if (ViewBag.Users == null)
         {
@@ -33,15 +37,18 @@
                             <td>@item.IsVerified</td>
                             <td>
                                 <div class="d-flex justify-content-center">
-                                    <a asp-controller="Home" asp-action="UpdateUser" asp-route-id="@item.Id" class="btn btn-sm btn-outline-info me-4">Editar</a>
+                                    @if (item.Id != user.Id)
+                                    {
+                                        <a asp-controller="Home" asp-action="UpdateUser" asp-route-id="@item.Id" class="btn btn-sm btn-outline-info me-4">Editar</a>
 
-                                    @if (item.IsVerified)
-                                    {
-                                        <a asp-controller="Home" asp-action="ActiveUser" asp-route-id="@item.Id" class="btn btn-sm btn-outline-danger">Desactivar</a>
-                                    }
-                                    else
-                                    {
-                                        <a asp-controller="Home" asp-action="ActiveUser" asp-route-id="@item.Id" class="btn btn-sm btn-outline-danger">Activar</a>
+                                        @if (item.IsVerified)
+                                        {
+                                            <a asp-controller="Home" asp-action="ActiveUser" asp-route-id="@item.Id" class="btn btn-sm btn-outline-danger">Desactivar</a>
+                                        }
+                                        else
+                                        {
+                                            <a asp-controller="Home" asp-action="ActiveUser" asp-route-id="@item.Id" class="btn btn-sm btn-outline-danger">Activar</a>
+                                        }
                                     }
                                 </div>
                             </td>
@@ -50,7 +57,7 @@
                 </tbody>
             </table>
         }
-        
+
     </div>
     <div class="col-4 mx-auto">
         <a asp-controller="Home" asp-action="Register" class="btn btn-outline-primary w-100">
