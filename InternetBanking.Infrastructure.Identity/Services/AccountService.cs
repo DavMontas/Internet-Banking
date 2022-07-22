@@ -101,14 +101,15 @@ namespace InternetBanking.Infrastructure.Identity.Services
             }
 
             var user = new ApplicationUser
-            { 
+            {
                 IdCard = req.IdCard,
                 Email = req.Email,
                 FirstName = req.FirstName,
                 LastName = req.LastName,
                 UserName = req.UserName,
                 PhoneNumber = req.PhoneNumber,
-                IsVerified = req.IsVerified
+                IsVerified = req.IsVerified,
+                TypeUser = req.TypeUser
             };
 
             var result = await _userManager.CreateAsync(user, req.Password);
@@ -119,7 +120,13 @@ namespace InternetBanking.Infrastructure.Identity.Services
                 return res;
             }
 
-            await _userManager.AddToRoleAsync(user, Roles.Basic.ToString());
+            if (user.TypeUser == 0)
+            {
+                await _userManager.AddToRoleAsync(user, Roles.Admin.ToString());
+            }
+            else await _userManager.AddToRoleAsync(user, Roles.Basic.ToString());
+            
+
             await _emailService.SendAsync(new EmailRequest()
             { 
                 To = user.Email,

@@ -41,7 +41,7 @@ namespace InternetBanking.Core.Application.ViewModels.User
         [DataType(DataType.Text)]
         [Required(ErrorMessage = "Phone is required")]
         public string PhoneNumber { get; set; }
-        public string TypeUser { get; set; }
+        public int TypeUser { get; set; }
         public bool HasError { get; set; }
         public string Error { get; set; }
         public bool IsVerified { get; set; } = false;
