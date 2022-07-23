@@ -19,4 +19,8 @@
     <ProjectReference Include="..\InternetBanking.Core.Domain\InternetBanking.Core.Domain.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="ViewModels\Recipient\" />
+  </ItemGroup>
+
 </Project>

@@ -123,9 +123,11 @@ namespace InternetBanking.Infrastructure.Identity.Services
             if (user.TypeUser == 0)
             {
                 await _userManager.AddToRoleAsync(user, Roles.Admin.ToString());
-            }
-            else await _userManager.AddToRoleAsync(user, Roles.Basic.ToString());
-            
+                
+            } else
+            {
+                await _userManager.AddToRoleAsync(user, Roles.Basic.ToString());
+            } 
 
             await _emailService.SendAsync(new EmailRequest()
             { 
@@ -152,6 +154,7 @@ namespace InternetBanking.Infrastructure.Identity.Services
                 user.Email = req.Email;
                 user.PhoneNumber = req.PhoneNumber;
                 user.PasswordHash = _userManager.PasswordHasher.HashPassword(user, req.Password);
+                user.TypeUser = req.TypeUser;
 
                 var userUpdated = await _userManager.UpdateAsync(user);
                 if (!userUpdated.Succeeded)
@@ -319,6 +322,7 @@ namespace InternetBanking.Infrastructure.Identity.Services
                 res.UserName = user.UserName;
                 res.PhoneNumber = user.PhoneNumber;
                 res.IsVerified = user.IsVerified;
+                res.TypeUser = user.TypeUser;
 
                 return res;
             }
@@ -351,8 +355,10 @@ namespace InternetBanking.Infrastructure.Identity.Services
             var route = "User/ResetPassword";
             var uri = new Uri(string.Concat($"{origin}/", route));
             var forgotPassUri = QueryHelpers.AddQueryString(uri.ToString(), "token", token);
-
+            
             return forgotPassUri;
         }
+
+        //private async Task<int[]> 
     }
 }

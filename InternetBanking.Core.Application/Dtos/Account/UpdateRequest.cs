@@ -17,7 +17,7 @@ namespace InternetBanking.Core.Application.Dtos.Account
         public string Password { get; set; }
         public string ConfirmPassword { get; set; }
         public string PhoneNumber { get; set; }
-        public string TypeUser { get; set; }
+        public int TypeUser { get; set; }
         public bool IsVerified { get; set; } = false;
     }
 }

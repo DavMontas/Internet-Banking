@@ -1,7 +1,12 @@
-﻿@using InternetBanking.Core.Application.ViewModels.User
+﻿@using InternetBanking.Core.Application.Dtos.Account
+@using InternetBanking.Core.Application.Enums
+@using InternetBanking.Core.Application.Helpers
+@using InternetBanking.Core.Application.ViewModels.User
+@using Microsoft.AspNetCore.Http
 @model UserSaveViewModel
 @{
     bool editMode = Model.Id == null || Model.Id == "" ? false : true;
+    int rol = Model.TypeUser;
     ViewData["Title"] = "Register";
 }
 
@@ -71,15 +76,24 @@
                                 <label asp-for="ConfirmPassword" class="form-label">Confirmar Contraseña </label>
                                 <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
                             </div>
-
+@*
                             <div class="form-floating mb-3">
-                                <select class="form-select" aria-label="Default select example">
-                                    <option selected>Open this select menu</option>
-                                    <option value="1">Admin</option>
-                                    <option value="2">One</option>
-                                </select>
+                                <input asp-for="TypeUser" class="form-control" placeholder="Confirmar Contraseña" />
+                                <label asp-for="TypeUser" class="form-label">Confirmar Contraseña </label>
+                                <span asp-validation-for="TypeUser" class="text-danger"></span>
+                            </div>*@
 
-                            </div>
+                            @if (!editMode || (editMode && rol == 1))
+                            {
+                                <div class="form-floating mb-3">
+                                    <select class="form-select" aria-label="Default select example">
+                                        <option selected>Open this select menu</option>
+                                        <option value="1">Admin</option>
+                                        <option value="2">User</option>
+                                    </select>
+                                </div>
+                            }
+
 
                         </section>
                         <section class="col-11 mx-auto">

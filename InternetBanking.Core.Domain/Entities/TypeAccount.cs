@@ -7,6 +7,6 @@ namespace InternetBanking.Infrastructure.Identity.Entities
     public class TypeAccount : AuditableBE
     {
         public string NameAccount { get; set; }
-        public ICollection<Product> MyProperty { get; set; }
+        public ICollection<Product> Products { get; set; }
     }
 }

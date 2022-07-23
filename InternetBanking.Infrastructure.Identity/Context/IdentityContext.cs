@@ -12,28 +12,38 @@ namespace InternetBanking.Infrastructure.Identity.Context
         protected override void OnModelCreating(ModelBuilder mb)
         {
             //FLUENT API
+
             base.OnModelCreating(mb);
             mb.HasDefaultSchema("Identity");
 
-            mb.Entity<ApplicationUser>(entity => 
+            #region tables
+            mb.Entity<ApplicationUser>(entity =>
             {
                 entity.ToTable(name: "Users");
             });
 
-            mb.Entity<IdentityRole>(entity => 
+            mb.Entity<IdentityRole>(entity =>
             {
                 entity.ToTable(name: "Roles");
             });
 
-            mb.Entity<IdentityUserRole<string>>(entity => 
+            mb.Entity<IdentityUserRole<string>>(entity =>
             {
                 entity.ToTable(name: "UserRoles");
-            }); 
+            });
 
-            mb.Entity<IdentityUserLogin<string>>(entity => 
+            mb.Entity<IdentityUserLogin<string>>(entity =>
             {
                 entity.ToTable(name: "UserLogins");
             });
+            #endregion
+
+            #region relations
+            #endregion
+
+            #region property config
+            #endregion
+
         }
     }
 }

@@ -20,6 +20,7 @@ namespace InternetBanking.Controllers
     public class HomeController : Controller
     {
         private readonly IUserService _svc;
+        private readonly IAccountService _accountSvc;
         public HomeController(IUserService svc)
         {
             _svc = svc;
@@ -75,7 +76,7 @@ namespace InternetBanking.Controllers
                 vm.Error = response.Error;
                 return View(vm);
             }
-
+            //ViewBag.Roles = _
             return RedirectToRoute(new { controller = "Home", action = "UserManagement" });
         }
 
@@ -83,7 +84,7 @@ namespace InternetBanking.Controllers
         {
             var user = HttpContext.Session.Get<AuthenticationResponse>("user");
 
-            if (id == id)
+            if (id == user.Id)
             {
                 return RedirectToRoute(new {controller ="Home", action = "UserManagement" });
             }

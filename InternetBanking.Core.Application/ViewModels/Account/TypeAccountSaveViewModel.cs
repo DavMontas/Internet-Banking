@@ -4,12 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace InternetBanking.Core.Domain.Entities
+namespace InternetBanking.Core.Application.ViewModels.Account
 {
-    public class Recipient
+    public class TypeAccountSaveViewModel
     {
         public int Id { get; set; }
-        public int RecipientCode { get; set; }
+        public string NameAccount { get; set; }
 
     }
 }
