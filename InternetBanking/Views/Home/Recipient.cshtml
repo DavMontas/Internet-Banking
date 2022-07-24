@@ -16,7 +16,7 @@
                     / Administración de usuarios
                 </span>
             </h3>
-            <a asp-controller="Home" asp-action="Register" class="btn btn-outline-dark">
+            <a asp-controller="Home" asp-action="AddRecipient" class="btn btn-outline-dark">
                 Agregar Nuevo Beneficiario
             </a>
         </section>
@@ -26,7 +26,7 @@
 
         @if (ViewBag.Users == null)
         {
-            <h2>No existen registros de usuarios</h2>
+            <h2>No existen ningun beneficiario</h2>
         }
         else
         {

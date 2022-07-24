@@ -61,6 +61,11 @@ namespace InternetBanking.Controllers
             return View();
         }
 
+        public async Task<IActionResult> Recipient()
+        {
+            return View();
+        }
+
         public async Task<IActionResult> UserManagement()
         {
             ViewBag.Users = await _svc.GetAllUsers();

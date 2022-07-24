@@ -31,10 +31,11 @@ namespace InternetBanking.Infrastructure.Persistence
             }
 
             #region 'repositories'
+
             service.AddTransient(typeof(IGenericRepository<>), typeof(GenericRepository<>));
             service.AddTransient<IProductRepository, ProductRepository>();
             service.AddTransient<ITypeAccountRepository, TypeAccountRepository>();
-
+            service.AddTransient<IRecipientRepository, RecipientRepository>();
 
             #endregion
         }
