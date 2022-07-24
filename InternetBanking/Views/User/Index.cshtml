@@ -5,12 +5,12 @@
 }
 
 <div class="row">
-    <section class="col-10 mx-auto bg-primary rounded-3 text-white text-center p-3 my-5">
+    <section class="w-100 mx-auto bg-primary rounded-3 text-white text-center p-3 mb-5">
         <h3 class="display-8 fw-normal text-uppercase fw-bolder m-0">
             Banco BDM
         </h3>
     </section>
-    <div class="col-4 mx-auto rounded-3 shadow p-4">
+    <div class="col-4 mx-auto rounded-3 shadow p-4 mt-5">
         @Html.ValidationSummary(false, "", new { @class = "text-danger" })
         @if (Model.HasError)
         {

@@ -4,9 +4,12 @@
 @inject IHttpContextAccessor httpContextAccesor
 @{
     var user = httpContextAccesor.HttpContext.Session.Get<AuthenticationResponse>("user");
+    var indianCulture = new System.Globalization.CultureInfo("hi-IN");
 }
 
 <div class="row">
+
+  @* SIDE MENU *@
 
   <section class="col-3 d-flex flex-column flex-shrink-0 p-3 text-white bg-primary vh-100">
     <h3 href="/" class="text-center text-decoration-none">
@@ -15,7 +18,7 @@
     <hr>
     <ul class="nav nav-pills flex-column">
       <li>
-        <a href="#" class="nav-link btn-primary fs-5">
+        <a asp-controller="Home" asp-action="DashboardClient" class="nav-link btn-primary fs-5">
           Home
         </a>
       </li>
@@ -60,29 +63,73 @@
     </div>
   </section>
 
+
+  @* Content *@
+
   <section class="col-9 p-0">
-    <section class="w-100 bg-light p-3 mb-5">
-      <h3 class="display-8 fw-bold text-start fw-bolder m-2 w-100">
+    <section class="d-flex justify-content-between align-items-center w-100 bg-light p-3">
+      <h3 class="fs-4 fw-bold fw-bolder m-2 w-100">
         Dashboard
+        <span class="fs-5 fw-bold fw-bolder text-muted text-end m-2 w-100">
+            / Productos
+        </span>
       </h3>
     </section>
-    <div class="row mt-5">
-        <section class="col-9 mx-auto rounded-3 shadow p-4">
+    <div class="row mt-3">
+        <section class="col-11 mx-auto rounded-3 p-2">
             <ul class="list-group rounded p-3">
-              <li class="list-group-item list-group-item-action d-flex justify-content-between align-items-center active fs-4">
-                Productos
+              <li class="list-group-item list-group-item-action d-flex justify-content-between align-items-center active fs-5">
+                Cuentas de Ahorro
               </li>
-              <li class="list-group-item d-flex justify-content-between align-items-center text-muted fs-5">
-                Cuenta de Ahorro
-                <span class="badge bg-primary rounded-pill fs-6 p-3">RD$15,000</span>
+              <li class="list-group-item d-flex justify-content-between align-items-center fs-6 fw-bold">
+                81247822
+                <h6 class="text-muted p-2">RD$@(string.Format(indianCulture, "{0:N}", 98450))</h6>
               </li>
-              <li class="list-group-item d-flex justify-content-between align-items-center text-muted fs-5">
-                Tarjeta de Crédito
-                <span class="badge bg-warning rounded-pill fs-6 p-3">RD$29,877</span>
+              <li class="list-group-item d-flex justify-content-between align-items-center fs-6 fw-bold">
+                81247822
+                <h6 class="text-muted p-2">RD$@(string.Format(indianCulture, "{0:N}", 790))</h6>
               </li>
-              <li class="list-group-item d-flex justify-content-between align-items-center text-muted fs-5">
-                Préstamo
-                <span class="badge bg-danger rounded-pill fs-6 p-3">RD$3,670</span>
+              <li class="list-group-item d-flex justify-content-between align-items-center fs-6 fw-bold">
+                81247822
+                <h6 class="text-muted p-2">RD$@(string.Format(indianCulture, "{0:N}", 3450))</h6>
+              </li>
+            </ul>
+        </section>
+        <section class="col-6 mx-auto rounded-3 p-2">
+            <ul class="list-group rounded p-3">
+              <li class="list-group-item list-group-item-action d-flex justify-content-between align-items-center active fs-5">
+                Tarjetas de Crédito
+              </li>
+              <li class="list-group-item d-flex justify-content-between align-items-center fs-6 fw-bold">
+                81247822
+                <h6 class="text-muted p-2">RD$@(string.Format(indianCulture, "{0:N}", 98450))</h6>
+              </li>
+              <li class="list-group-item d-flex justify-content-between align-items-center fs-6 fw-bold">
+                81247822
+                <h6 class="text-muted p-2">RD$@(string.Format(indianCulture, "{0:N}", 790))</h6>
+              </li>
+              <li class="list-group-item d-flex justify-content-between align-items-center fs-6 fw-bold">
+                81247822
+                <h6 class="text-muted p-2">RD$@(string.Format(indianCulture, "{0:N}", 3450))</h6>
+              </li>
+            </ul>
+        </section>
+        <section class="col-4 mx-auto rounded-3 p-2">
+            <ul class="list-group rounded p-3">
+              <li class="list-group-item list-group-item-action d-flex justify-content-between align-items-center active fs-5">
+                Préstamos
+              </li>
+              <li class="list-group-item d-flex justify-content-between align-items-center fs-6 fw-bold">
+                81247822
+                <h6 class="text-muted p-2">RD$@(string.Format(indianCulture, "{0:N}", 98450))</h6>
+              </li>
+              <li class="list-group-item d-flex justify-content-between align-items-center fs-6 fw-bold">
+                81247822
+                <h6 class="text-muted p-2">RD$@(string.Format(indianCulture, "{0:N}", 790))</h6>
+              </li>
+              <li class="list-group-item d-flex justify-content-between align-items-center fs-6 fw-bold">
+                81247822
+                <h6 class="text-muted p-2">RD$@(string.Format(indianCulture, "{0:N}", 3450))</h6>
               </li>
             </ul>
         </section>
