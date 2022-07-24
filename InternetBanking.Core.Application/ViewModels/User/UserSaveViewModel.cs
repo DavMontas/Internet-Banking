@@ -45,5 +45,6 @@ namespace InternetBanking.Core.Application.ViewModels.User
         public bool HasError { get; set; }
         public string Error { get; set; }
         public bool IsVerified { get; set; } = false;
+        public double Amount { get; set; } = 0;
     }
 }

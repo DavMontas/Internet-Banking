@@ -5,12 +5,10 @@ using InternetBanking.Core.Application.Interfaces.Services;
 using InternetBanking.Core.Application.ViewModels.User;
 using InternetBanking.Models;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
 using System.Threading.Tasks;
 using WebApp.InternetBanking.Middlewares;
 
@@ -20,10 +18,12 @@ namespace InternetBanking.Controllers
     public class HomeController : Controller
     {
         private readonly IUserService _svc;
-        private readonly IAccountService _accountSvc;
-        public HomeController(IUserService svc)
+        private readonly RoleManager<IdentityRole> _roleManager;
+
+        public HomeController(IUserService svc, RoleManager<IdentityRole> roleManager)
         {
             _svc = svc;
+            _roleManager = roleManager;
         }
 
         public IActionResult Index()
@@ -56,14 +56,17 @@ namespace InternetBanking.Controllers
         }
 
         [ServiceFilter(typeof(AdminAuthorize))]
-        public IActionResult Register()
+        public  async Task<IActionResult> Register()
         {
+            ViewBag.Roles = new SelectList(await _roleManager.Roles.ToListAsync());
+
             return View(new UserSaveViewModel());
         }
 
         [HttpPost]
         public async Task<IActionResult> Register(UserSaveViewModel vm)
         {
+
             if (!ModelState.IsValid)
             {
                 return View(vm);
@@ -76,7 +79,7 @@ namespace InternetBanking.Controllers
                 vm.Error = response.Error;
                 return View(vm);
             }
-            //ViewBag.Roles = _
+
             return RedirectToRoute(new { controller = "Home", action = "UserManagement" });
         }
 

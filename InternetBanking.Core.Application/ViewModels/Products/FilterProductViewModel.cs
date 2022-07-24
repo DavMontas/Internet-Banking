@@ -8,6 +8,6 @@ namespace InternetBanking.Core.Application.ViewModels.Products
 {
     public class FilterProductViewModel
     {
-
+        public int? Id { get; set; }
     }
 }

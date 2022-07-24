@@ -5,8 +5,8 @@ using System.Threading.Tasks;
 
 namespace InternetBanking.Core.Application.Interfaces.Services
 {
-    interface  IProductService : IGenericService<ProductSaveViewModel, ProductViewModel, Product>
+    public interface  IProductService : IGenericService<ProductSaveViewModel, ProductViewModel, Product>
     {
-        //Task<List<ProductViewModel>> GetAllViewModelWithInclude();
+        Task AddSavingAccountAsync(string idUser, double amount);
     }
 }

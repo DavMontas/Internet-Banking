@@ -19,15 +19,19 @@ namespace InternetBanking.Infrastructure.Identity.Services
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly IEmailService _emailService;
+        private readonly IProductService _productSvc;
+
 
         public AccountService(
             UserManager<ApplicationUser> userManager, 
             SignInManager<ApplicationUser> signInManager, 
-            IEmailService emailService)
+            IEmailService emailService,
+            IProductService productSvc)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _emailService = emailService;
+            _productSvc = productSvc;
         }
 
         //Methods
@@ -110,6 +114,7 @@ namespace InternetBanking.Infrastructure.Identity.Services
                 PhoneNumber = req.PhoneNumber,
                 IsVerified = req.IsVerified,
                 TypeUser = req.TypeUser
+
             };
 
             var result = await _userManager.CreateAsync(user, req.Password);
@@ -120,13 +125,14 @@ namespace InternetBanking.Infrastructure.Identity.Services
                 return res;
             }
 
-            if (user.TypeUser == 0)
+            if (user.TypeUser == 1)
             {
                 await _userManager.AddToRoleAsync(user, Roles.Admin.ToString());
                 
             } else
             {
                 await _userManager.AddToRoleAsync(user, Roles.Basic.ToString());
+                await _productSvc.AddSavingAccountAsync(user.Id, req.Amount);
             } 
 
             await _emailService.SendAsync(new EmailRequest()
@@ -155,7 +161,7 @@ namespace InternetBanking.Infrastructure.Identity.Services
                 user.PhoneNumber = req.PhoneNumber;
                 user.PasswordHash = _userManager.PasswordHasher.HashPassword(user, req.Password);
                 user.TypeUser = req.TypeUser;
-
+               
                 var userUpdated = await _userManager.UpdateAsync(user);
                 if (!userUpdated.Succeeded)
                 {
@@ -284,6 +290,7 @@ namespace InternetBanking.Infrastructure.Identity.Services
 
             return res;
         }
+
 
         //Method to get all users
         public async Task<List<AuthenticationResponse>> GetAllUsers()

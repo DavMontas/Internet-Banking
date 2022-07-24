@@ -19,5 +19,6 @@ namespace InternetBanking.Core.Application.Dtos.Account
         public string PhoneNumber { get; set; }
         public int TypeUser { get; set; }
         public bool IsVerified { get; set; } = false;
+        public double Amount { get; set; }
     }
 }

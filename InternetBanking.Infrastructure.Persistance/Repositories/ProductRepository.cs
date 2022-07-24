@@ -1,6 +1,7 @@
 ﻿using InternetBanking.Core.Application.Interfaces.Repositories;
 using InternetBanking.Core.Domain.Entities;
 using InternetBanking.Infrastructure.Persistence.Context;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,7 +17,5 @@ namespace InternetBanking.Infrastructure.Persistence.Repositories
         {
             _db = db;
         }
-
-
     }
 }

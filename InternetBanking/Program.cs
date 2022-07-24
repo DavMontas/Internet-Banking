@@ -1,5 +1,7 @@
+using InternetBanking.Core.Application.Interfaces.Repositories;
 using InternetBanking.Infrastructure.Identity.Entities;
 using InternetBanking.Infrastructure.Identity.Seeds;
+using InternetBanking.Infrastructure.Persistence.Seeds;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
@@ -28,10 +30,19 @@ namespace InternetBanking
                 {
                     var userManager = services.GetRequiredService<UserManager<ApplicationUser>>();
                     var roleManager = services.GetRequiredService<RoleManager<IdentityRole>>();
+                    var productRepo = services.GetRequiredService<ITypeAccountRepository>();
 
                     await DefaultRoles.SeedAsync(userManager, roleManager);
                     await DefaultAdminUser.SeedAsync(userManager, roleManager);
                     await DefaultBasicUser.SeedAsync(userManager, roleManager);
+
+                    await DefaultSavingAccount.SeedAsync(productRepo);
+                    await DefaultCreditAccount.SeedAsync(productRepo);
+                    await DefaultLoanAccount.SeedAsync(productRepo);
+
+
+
+
                 }
                 catch (Exception)
                 {

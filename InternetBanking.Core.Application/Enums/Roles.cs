@@ -8,7 +8,7 @@ namespace InternetBanking.Core.Application.Enums
 {
     public enum Roles
     {
-        Admin,
+        Admin = 1,
         Basic
     }
 }

@@ -1,7 +1,9 @@
 ﻿@using InternetBanking.Core.Application.Dtos.Account
 @using InternetBanking.Core.Application.Enums
 @using InternetBanking.Core.Application.Helpers
+@using InternetBanking.Core.Application.ViewModels.Account
 @using InternetBanking.Core.Application.ViewModels.User
+@using InternetBanking.Infrastructure.Identity.Entities
 @using Microsoft.AspNetCore.Http
 @model UserSaveViewModel
 @{
@@ -76,23 +78,37 @@
                                 <label asp-for="ConfirmPassword" class="form-label">Confirmar Contraseña </label>
                                 <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
                             </div>
-@*
-                            <div class="form-floating mb-3">
-                                <input asp-for="TypeUser" class="form-control" placeholder="Confirmar Contraseña" />
-                                <label asp-for="TypeUser" class="form-label">Confirmar Contraseña </label>
-                                <span asp-validation-for="TypeUser" class="text-danger"></span>
-                            </div>*@
 
-                            @if (!editMode || (editMode && rol == 1))
+                            @if (ViewBag.Roles != null)
+                            {
+                                @if ((!editMode || (editMode && rol == 2)))
+                                {
+                                    <div class="form-floating mb-3">
+                                        <select name="Roles" asp-items="ViewBag.Roles" asp-for="TypeUser" class="form-select" aria-label="Default select example">
+                                            <option selected>Open this select menu</option>
+                                        </select>
+                                    </div>
+                                }
+                            }
+
+
+
+                            @if (editMode && Model.TypeUser == 2)
                             {
                                 <div class="form-floating mb-3">
-                                    <select class="form-select" aria-label="Default select example">
-                                        <option selected>Open this select menu</option>
-                                        <option value="1">Admin</option>
-                                        <option value="2">User</option>
-                                    </select>
+                                    <input asp-for="Amount" class="form-control" placeholder="Añadir Monto" />
+                                    <label asp-for="Amount" class="form-label">Añadir Monto </label>
                                 </div>
                             }
+                            else
+                            {
+                                <div class="form-floating mb-3">
+                                    <input asp-for="Amount" class="form-control" placeholder="Monto Inicial" />
+                                    <label asp-for="Amount" class="form-label">Monto </label>
+                                </div>
+                            }
+
+
 
 
                         </section>
