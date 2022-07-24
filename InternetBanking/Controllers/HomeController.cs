@@ -75,7 +75,7 @@ namespace InternetBanking.Controllers
         [ServiceFilter(typeof(AdminAuthorize))]
         public  async Task<IActionResult> Register()
         {
-            ViewBag.Roles = new SelectList(await _roleManager.Roles.ToListAsync());
+            ViewBag.Roles = await _roleManager.Roles.ToListAsync();
 
             return View(new UserSaveViewModel());
         }
@@ -83,9 +83,10 @@ namespace InternetBanking.Controllers
         [HttpPost]
         public async Task<IActionResult> Register(UserSaveViewModel vm)
         {
-
+            
             if (!ModelState.IsValid)
             {
+                ViewBag.Roles = await _roleManager.Roles.ToListAsync();
                 return View(vm);
             }
             var origin = Request.Headers["origin"];
@@ -94,6 +95,7 @@ namespace InternetBanking.Controllers
             {
                 vm.HasError = response.HasError;
                 vm.Error = response.Error;
+                ViewBag.Roles = await _roleManager.Roles.ToListAsync();
                 return View(vm);
             }
 
@@ -102,6 +104,7 @@ namespace InternetBanking.Controllers
 
         public async Task<IActionResult> UpdateUser(string id)
         {
+            ViewBag.Roles = await _roleManager.Roles.ToListAsync();
             var user = HttpContext.Session.Get<AuthenticationResponse>("user");
 
             if (id == user.Id)
@@ -114,6 +117,7 @@ namespace InternetBanking.Controllers
         [HttpPost]
         public async Task<IActionResult> UpdateUser(UserSaveViewModel vm)
         {
+            ViewBag.Roles = await _roleManager.Roles.ToListAsync();
             if (!ModelState.IsValid)
             {
                 return View("Register", vm);

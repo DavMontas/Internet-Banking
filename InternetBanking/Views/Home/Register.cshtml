@@ -9,6 +9,7 @@
 @{
     bool editMode = Model.Id == null || Model.Id == "" ? false : true;
     int rol = Model.TypeUser;
+    int count = 1;
     ViewData["Title"] = "Register";
 }
 
@@ -79,16 +80,19 @@
                                 <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
                             </div>
 
-                            @if (ViewBag.Roles != null)
+                            @if ((!editMode || (editMode && rol == 2)))
                             {
-                                @if ((!editMode || (editMode && rol == 2)))
-                                {
-                                    <div class="form-floating mb-3">
-                                        <select name="Roles" asp-items="ViewBag.Roles" asp-for="TypeUser" class="form-select" aria-label="Default select example">
-                                            <option selected>Open this select menu</option>
-                                        </select>
-                                    </div>
-                                }
+                                <div class="form-floating mb-3">
+                                    <select asp-for="TypeUser" value="@Model.TypeUser" class="form-select" aria-label="Default select example">
+                                        <option selected>Open this select menu</option>
+
+                                        @foreach (var item in ViewBag.Roles)
+                                        {
+                                            <option value="@count">@item.Name</option>
+                                            count++;
+                                        }
+                                    </select>
+                                </div>
                             }
 
 
