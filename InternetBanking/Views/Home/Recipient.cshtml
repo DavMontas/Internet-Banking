@@ -1,0 +1,76 @@
+﻿@using InternetBanking.Core.Application.Dtos.Account
+@using InternetBanking.Core.Application.Helpers
+@using Microsoft.AspNetCore.Http
+@inject IHttpContextAccessor httpContextAccesor
+@{
+    var user = httpContextAccesor.HttpContext.Session.Get<AuthenticationResponse>("user");
+}
+
+<div class="row">
+
+    <div class="row bg-light rounded p-3 mb-5">
+        <section class="w-100 d-flex justify-content-between align-items-center px-5">
+            <h3 class="fs-4 fw-bold fw-bolder m-2 w-100">
+                Dashboard
+                <span class="fs-5 fw-bold fw-bolder text-muted m-2 text-end w-100">
+                    / Administración de usuarios
+                </span>
+            </h3>
+            <a asp-controller="Home" asp-action="Register" class="btn btn-outline-dark">
+                Agregar Nuevo Beneficiario
+            </a>
+        </section>
+    </div>
+
+    <div class="col-8 mx-auto">
+
+        @if (ViewBag.Users == null)
+        {
+            <h2>No existen registros de usuarios</h2>
+        }
+        else
+        {
+            <table class="table table-hover">
+                <thead>
+                    <tr class="table-primary">
+                        <th scope="col">FirsName</th>
+                        <th scope="col">LastName</th>
+                        <th scope="col">Username</th>
+                        <th scope="col">IsActive</th>
+                        <th class="text-center" scope="col">Acciones</th>
+
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (AuthenticationResponse item in ViewBag.Users)
+                    {
+                        <tr class="table-light">
+                            <td>@item.FirstName</td>
+                            <td>@item.LastName</td>
+                            <td>@item.UserName</td>
+                            <td>@item.IsVerified</td>
+                            <td>
+                                <div class="d-flex justify-content-center">
+                                    @if (item.Id != user.Id)
+                                    {
+                                        <a asp-controller="Home" asp-action="UpdateUser" asp-route-id="@item.Id" class="btn btn-sm btn-outline-info me-4">Editar</a>
+
+                                        @if (item.IsVerified)
+                                        {
+                                            <a asp-controller="Home" asp-action="ActiveUser" asp-route-id="@item.Id" class="btn btn-sm btn-outline-danger">Desactivar</a>
+                                        }
+                                        else
+                                        {
+                                            <a asp-controller="Home" asp-action="ActiveUser" asp-route-id="@item.Id" class="btn btn-sm btn-outline-danger">Activar</a>
+                                        }
+                                    }
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
+
+    </div>
+</div>

@@ -8,5 +8,8 @@ namespace InternetBanking.Core.Application.Interfaces.Services
     public interface  IProductService : IGenericService<ProductSaveViewModel, ProductViewModel, Product>
     {
         Task AddSavingAccountAsync(string idUser, double amount);
+
+        Task<List<Product>> GetAllProductByUser(string idUser, int typeAccountId);
+
     }
 }

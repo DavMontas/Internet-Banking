@@ -8,7 +8,6 @@ namespace InternetBanking.Core.Application.Interfaces.Services
     public interface ITypeAccountService : IGenericService<TypeAccountSaveViewModel, TypeAccountViewModel, TypeAccount>
     {
 
-        Task<List<TypeAccountViewModel>> GetAllAsyncStatic();
 
 
     }

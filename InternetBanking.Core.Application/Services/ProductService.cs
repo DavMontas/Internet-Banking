@@ -1,10 +1,12 @@
 ﻿using AutoMapper;
+using InternetBanking.Core.Application.Dtos.Account;
 using InternetBanking.Core.Application.Enums;
 using InternetBanking.Core.Application.Helpers;
 using InternetBanking.Core.Application.Interfaces.Repositories;
 using InternetBanking.Core.Application.Interfaces.Services;
 using InternetBanking.Core.Application.ViewModels.Products;
 using InternetBanking.Core.Domain.Entities;
+using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -93,6 +95,14 @@ namespace InternetBanking.Core.Application.Services
             List<Product> products = await _repo.GetAllAsync();
             bool exist =  products.Any(e => e.AccountNumber == accountNumber);
             return exist;
+        }
+
+        public async Task<List<Product>> GetAllProductByUser(string idUser, int typeAccountId)
+        {
+            List<Product> products = await _repo.GetAllAsync();
+            products = products.Where(p => p.ClientId == idUser && p.TypeAccountId == typeAccountId).ToList();
+
+            return products;
         }
     }
 }

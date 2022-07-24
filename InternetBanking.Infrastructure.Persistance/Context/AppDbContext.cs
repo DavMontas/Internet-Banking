@@ -76,6 +76,9 @@ namespace InternetBanking.Infrastructure.Persistence.Context
                 .HasForeignKey(p => p.TypeAccountId)
                 .OnDelete(DeleteBehavior.Cascade);
 
+            //mb.Entity<Recipient>()
+            //    .HasOne<Product>(r => r.Product)
+            //    .WithMany(p => p.Re)
             #endregion
 
             #region property configurations

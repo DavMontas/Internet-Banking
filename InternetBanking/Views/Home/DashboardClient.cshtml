@@ -1,4 +1,5 @@
-﻿@using Microsoft.AspNetCore.Http
+﻿@using InternetBanking.Core.Domain.Entities
+@using Microsoft.AspNetCore.Http
 @using InternetBanking.Core.Application.Dtos.Account
 @using InternetBanking.Core.Application.Helpers
 @inject IHttpContextAccessor httpContextAccesor
@@ -9,131 +10,165 @@
 
 <div class="row">
 
-  @* SIDE MENU *@
+    @* SIDE MENU *@
 
-  <section class="col-3 d-flex flex-column flex-shrink-0 p-3 text-white bg-primary vh-100">
-    <h3 href="/" class="text-center text-decoration-none">
-      <span class="fs-4 fw-bold text-uppercase w-100">Banco BDM</span>
-    </h3>
-    <hr>
-    <ul class="nav nav-pills flex-column">
-      <li>
-        <a asp-controller="Home" asp-action="DashboardClient" class="nav-link btn-primary fs-5">
-          Home
-        </a>
-      </li>
-      <li class="nav-item dropdown">
-        <a class="nav-link dropdown-toggle btn-primary fs-5" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="true">
-            Pagos
-        </a>
-        <div class="dropdown-menu dropdown-menu-dark shadow" style="position: absolute; inset: 0px auto auto 0px; margin: 0px; transform: translate3d(0px, 42px, 0px);" data-popper-placement="bottom-start">
-          <a class="dropdown-item" href="#">Expreso</a>
-          <a class="dropdown-item" href="#">Tarjeta de Crédito</a>
-          <a class="dropdown-item" href="#">Préstamos</a>
-          <a class="dropdown-item" href="#">Beneficiarios</a>
+    <section class="col-3 d-flex flex-column flex-shrink-0 p-3 text-white bg-primary vh-100">
+        <h3 href="/" class="text-center text-decoration-none">
+            <span class="fs-4 fw-bold text-uppercase w-100">Banco BDM</span>
+        </h3>
+        <hr>
+        <ul class="nav nav-pills flex-column">
+            <li>
+                <a asp-controller="Home" asp-action="DashboardClient" class="nav-link btn-primary fs-5">
+                    Home
+                </a>
+            </li>
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle btn-primary fs-5" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="true">
+                    Pagos
+                </a>
+                <div class="dropdown-menu dropdown-menu-dark shadow" style="position: absolute; inset: 0px auto auto 0px; margin: 0px; transform: translate3d(0px, 42px, 0px);" data-popper-placement="bottom-start">
+                    <a class="dropdown-item" href="#">Expreso</a>
+                    <a class="dropdown-item" href="#">Tarjeta de Crédito</a>
+                    <a class="dropdown-item" href="#">Préstamos</a>
+                    <a class="dropdown-item" href="#">Beneficiarios</a>
+                </div>
+            </li>
+            <li>
+                <a href="#" class="nav-link btn-primary fs-5">
+                    Beneficiario
+                </a>
+            </li>
+            <li>
+                <a href="#" class="nav-link btn-primary fs-5">
+                    Avance de Efectivo
+                </a>
+            </li>
+            <li>
+                <a href="#" class="nav-link btn-primary fs-5">
+                    Transferencia
+                </a>
+            </li>
+        </ul>
+        <hr>
+        <div class="dropdown">
+            <a href="#" class="d-flex px-3 align-items-center text-white text-decoration-none dropdown-toggle mt-3" id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">
+                <img src="https://github.com/Chocolechi.png" alt="" width="32" height="32" class="rounded-circle me-2">
+                <strong>@user.UserName</strong>
+            </a>
+            <ul class="dropdown-menu dropdown-menu-dark text-small shadow" aria-labelledby="dropdownUser1" style="">
+                <li>
+                    <a asp-controller="User" asp-action="Logout" class="dropdown-item w-100">Cerrar Sesión</a>
+                </li>
+            </ul>
         </div>
-      </li>
-      <li>
-        <a href="#" class="nav-link btn-primary fs-5">
-          Beneficiario
-        </a>
-      </li>
-      <li>
-        <a href="#" class="nav-link btn-primary fs-5">
-          Avance de Efectivo
-        </a>
-      </li>
-      <li>
-        <a href="#" class="nav-link btn-primary fs-5">
-          Transferencia
-        </a>
-      </li>
-    </ul>
-    <hr>
-    <div class="dropdown">
-      <a href="#" class="d-flex px-3 align-items-center text-white text-decoration-none dropdown-toggle mt-3" id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">
-        <img src="https://github.com/Chocolechi.png" alt="" width="32" height="32" class="rounded-circle me-2">
-        <strong>@user.UserName</strong>
-      </a>
-      <ul class="dropdown-menu dropdown-menu-dark text-small shadow" aria-labelledby="dropdownUser1" style="">
-        <li>
-            <a asp-controller="User" asp-action="Logout" class="dropdown-item w-100">Cerrar Sesión</a>
-        </li>
-      </ul>
-    </div>
-  </section>
-
-
-  @* Content *@
-
-  <section class="col-9 p-0">
-    <section class="d-flex justify-content-between align-items-center w-100 bg-light p-3">
-      <h3 class="fs-4 fw-bold fw-bolder m-2 w-100">
-        Dashboard
-        <span class="fs-5 fw-bold fw-bolder text-muted text-end m-2 w-100">
-            / Productos
-        </span>
-      </h3>
     </section>
-    <div class="row mt-3">
-        <section class="col-11 mx-auto rounded-3 p-2">
-            <ul class="list-group rounded p-3">
-              <li class="list-group-item list-group-item-action d-flex justify-content-between align-items-center active fs-5">
-                Cuentas de Ahorro
-              </li>
-              <li class="list-group-item d-flex justify-content-between align-items-center fs-6 fw-bold">
-                81247822
-                <h6 class="text-muted p-2">RD$@(string.Format(indianCulture, "{0:N}", 98450))</h6>
-              </li>
-              <li class="list-group-item d-flex justify-content-between align-items-center fs-6 fw-bold">
-                81247822
-                <h6 class="text-muted p-2">RD$@(string.Format(indianCulture, "{0:N}", 790))</h6>
-              </li>
-              <li class="list-group-item d-flex justify-content-between align-items-center fs-6 fw-bold">
-                81247822
-                <h6 class="text-muted p-2">RD$@(string.Format(indianCulture, "{0:N}", 3450))</h6>
-              </li>
-            </ul>
+
+
+    @* Content *@
+
+    <section class="col-9 p-0">
+        <section class="d-flex justify-content-between align-items-center w-100 bg-light p-3">
+            <h3 class="fs-4 fw-bold fw-bolder m-2 w-100">
+                Dashboard
+                <span class="fs-5 fw-bold fw-bolder text-muted text-end m-2 w-100">
+                    / Productos
+                </span>
+            </h3>
         </section>
-        <section class="col-6 mx-auto rounded-3 p-2">
-            <ul class="list-group rounded p-3">
-              <li class="list-group-item list-group-item-action d-flex justify-content-between align-items-center active fs-5">
-                Tarjetas de Crédito
-              </li>
-              <li class="list-group-item d-flex justify-content-between align-items-center fs-6 fw-bold">
-                81247822
-                <h6 class="text-muted p-2">RD$@(string.Format(indianCulture, "{0:N}", 98450))</h6>
-              </li>
-              <li class="list-group-item d-flex justify-content-between align-items-center fs-6 fw-bold">
-                81247822
-                <h6 class="text-muted p-2">RD$@(string.Format(indianCulture, "{0:N}", 790))</h6>
-              </li>
-              <li class="list-group-item d-flex justify-content-between align-items-center fs-6 fw-bold">
-                81247822
-                <h6 class="text-muted p-2">RD$@(string.Format(indianCulture, "{0:N}", 3450))</h6>
-              </li>
-            </ul>
-        </section>
-        <section class="col-4 mx-auto rounded-3 p-2">
-            <ul class="list-group rounded p-3">
-              <li class="list-group-item list-group-item-action d-flex justify-content-between align-items-center active fs-5">
-                Préstamos
-              </li>
-              <li class="list-group-item d-flex justify-content-between align-items-center fs-6 fw-bold">
-                81247822
-                <h6 class="text-muted p-2">RD$@(string.Format(indianCulture, "{0:N}", 98450))</h6>
-              </li>
-              <li class="list-group-item d-flex justify-content-between align-items-center fs-6 fw-bold">
-                81247822
-                <h6 class="text-muted p-2">RD$@(string.Format(indianCulture, "{0:N}", 790))</h6>
-              </li>
-              <li class="list-group-item d-flex justify-content-between align-items-center fs-6 fw-bold">
-                81247822
-                <h6 class="text-muted p-2">RD$@(string.Format(indianCulture, "{0:N}", 3450))</h6>
-              </li>
-            </ul>
-        </section>
-    </div>
-  </section>
+        <div class="row mt-3">
+            <section class="col-11 mx-auto rounded-3 p-2">
+                <ul class="list-group rounded p-3">
+                    <li class="list-group-item list-group-item-action d-flex justify-content-between align-items-center active fs-5">
+                        Cuentas de Ahorro
+                    </li>
+                    @if (ViewBag.SavingAccount != null)
+                    {
+                        @foreach (Product item in ViewBag.SavingAccount)
+                        {
+                            <li class="list-group-item d-flex justify-content-between align-items-center fs-6 fw-bold">
+                                @item.AccountNumber
+                                <h6 class="text-muted p-2">RD$@(string.Format(indianCulture, "{0:N}", @item.Charge))</h6>
+                            </li>
+
+                        }
+                    }
+
+                    <li class="list-group-item d-flex justify-content-between align-items-center fs-6 fw-bold">
+                        81247822
+                        <h6 class="text-muted p-2">RD$@(string.Format(indianCulture, "{0:N}", 98450))</h6>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between align-items-center fs-6 fw-bold">
+                        81247822
+                        <h6 class="text-muted p-2">RD$@(string.Format(indianCulture, "{0:N}", 790))</h6>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between align-items-center fs-6 fw-bold">
+                        81247822
+                        <h6 class="text-muted p-2">RD$@(string.Format(indianCulture, "{0:N}", 3450))</h6>
+                    </li>
+                </ul>
+            </section>
+            <section class="col-6 mx-auto rounded-3 p-2">
+                <ul class="list-group rounded p-3">
+                    <li class="list-group-item list-group-item-action d-flex justify-content-between align-items-center active fs-5">
+                        Tarjetas de Crédito
+                    </li>
+                    @if (ViewBag.CreditCard != null)
+                    {
+                        @foreach (Product item in ViewBag.CreditCard)
+                        {
+                            <li class="list-group-item d-flex justify-content-between align-items-center fs-6 fw-bold">
+                                @item.AccountNumber
+                                <h6 class="text-muted p-2">RD$@(string.Format(indianCulture, "{0:N}", @item.Charge))</h6>
+                            </li>
+
+                        }
+                    }
+                    <li class="list-group-item d-flex justify-content-between align-items-center fs-6 fw-bold">
+                        81247822
+                        <h6 class="text-muted p-2">RD$@(string.Format(indianCulture, "{0:N}", 98450))</h6>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between align-items-center fs-6 fw-bold">
+                        81247822
+                        <h6 class="text-muted p-2">RD$@(string.Format(indianCulture, "{0:N}", 790))</h6>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between align-items-center fs-6 fw-bold">
+                        81247822
+                        <h6 class="text-muted p-2">RD$@(string.Format(indianCulture, "{0:N}", 3450))</h6>
+                    </li>
+                </ul>
+            </section>
+            <section class="col-4 mx-auto rounded-3 p-2">
+                <ul class="list-group rounded p-3">
+                    <li class="list-group-item list-group-item-action d-flex justify-content-between align-items-center active fs-5">
+                        Préstamos
+                    </li>
+                    @if (ViewBag.Loan != null)
+                    {
+                        @foreach (Product item in ViewBag.Loan)
+                        {
+                            <li class="list-group-item d-flex justify-content-between align-items-center fs-6 fw-bold">
+                                @item.AccountNumber
+                                <h6 class="text-muted p-2">RD$@(string.Format(indianCulture, "{0:N}", @item.Charge))</h6>
+                            </li>
+
+                        }
+                    }
+                    <li class="list-group-item d-flex justify-content-between align-items-center fs-6 fw-bold">
+                        81247822
+                        <h6 class="text-muted p-2">RD$@(string.Format(indianCulture, "{0:N}", 98450))</h6>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between align-items-center fs-6 fw-bold">
+                        81247822
+                        <h6 class="text-muted p-2">RD$@(string.Format(indianCulture, "{0:N}", 790))</h6>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between align-items-center fs-6 fw-bold">
+                        81247822
+                        <h6 class="text-muted p-2">RD$@(string.Format(indianCulture, "{0:N}", 3450))</h6>
+                    </li>
+                </ul>
+            </section>
+        </div>
+    </section>
 
 </div>

@@ -17,5 +17,6 @@ namespace InternetBanking.Infrastructure.Persistence.Repositories
         {
             _db = db;
         }
+
     }
 }

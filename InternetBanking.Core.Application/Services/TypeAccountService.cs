@@ -20,9 +20,5 @@ namespace InternetBanking.Core.Application.Services
             _mapper = mapper;
         }
 
-        public Task<List<TypeAccountViewModel>> GetAllAsyncStatic()
-        {
-            throw new System.NotImplementedException();
-        }
     }
 }

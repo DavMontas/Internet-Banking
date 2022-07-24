@@ -11,5 +11,8 @@ namespace InternetBanking.Core.Domain.Entities
         public int Id { get; set; }
         public int RecipientCode { get; set; }
 
+
+        public int ProductId { get; set; }
+        public Product Product { get; set; }
     }
 }

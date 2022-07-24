@@ -5,6 +5,7 @@ using InternetBanking.Core.Application.Interfaces.Services;
 using InternetBanking.Core.Application.ViewModels.User;
 using InternetBanking.Models;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -18,12 +19,17 @@ namespace InternetBanking.Controllers
     public class HomeController : Controller
     {
         private readonly IUserService _svc;
+        private readonly IProductService _productSvc;
         private readonly RoleManager<IdentityRole> _roleManager;
+        private readonly IHttpContextAccessor _httpContextAccessor;
 
-        public HomeController(IUserService svc, RoleManager<IdentityRole> roleManager)
+
+        public HomeController(IUserService svc, RoleManager<IdentityRole> roleManager, IProductService productSvc, IHttpContextAccessor http)
         {
             _svc = svc;
             _roleManager = roleManager;
+            _productSvc = productSvc;
+            _httpContextAccessor = http;
         }
 
         public IActionResult Index()
@@ -44,8 +50,14 @@ namespace InternetBanking.Controllers
         }
 
         [ServiceFilter(typeof(ClientAuthorize))]
-        public IActionResult DashboardClient()
+        public async Task<IActionResult> DashboardClient()
         {
+            var user = _httpContextAccessor.HttpContext.Session.Get<AuthenticationResponse>("user");
+
+            ViewBag.SavingAccount = await _productSvc.GetAllProductByUser(user.Id, (int)AccountTypes.SavingAccount);
+            ViewBag.CreditCard = await _productSvc.GetAllProductByUser(user.Id, (int)AccountTypes.CreditAccount);
+            ViewBag.Loan = await _productSvc.GetAllProductByUser(user.Id, (int)AccountTypes.LoanAccount);
+
             return View();
         }
 
