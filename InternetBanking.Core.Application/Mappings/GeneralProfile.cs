@@ -2,6 +2,7 @@
 using InternetBanking.Core.Application.Dtos.Account;
 using InternetBanking.Core.Application.ViewModels.Account;
 using InternetBanking.Core.Application.ViewModels.Products;
+using InternetBanking.Core.Application.ViewModels.Recipient;
 using InternetBanking.Core.Application.ViewModels.User;
 using InternetBanking.Core.Domain.Entities;
 using InternetBanking.Infrastructure.Identity.Entities;
@@ -22,6 +23,10 @@ namespace InternetBanking.Core.Application.Mappings
                 .ReverseMap();
 
             CreateMap<AuthenticationResponse, UserSaveViewModel>()
+                .ReverseMap()
+                .ForMember(x => x.Roles, opt => opt.Ignore());
+
+            CreateMap<AuthenticationResponse, UserViewModel>()
                 .ReverseMap()
                 .ForMember(x => x.Roles, opt => opt.Ignore());
 
@@ -68,6 +73,12 @@ namespace InternetBanking.Core.Application.Mappings
             #endregion
 
             #region recipient
+
+            CreateMap<Recipient, RecipientViewModel>()
+                .ReverseMap();
+
+            CreateMap<Recipient, RecipientSaveViewModel>()
+                .ReverseMap();
 
 
 

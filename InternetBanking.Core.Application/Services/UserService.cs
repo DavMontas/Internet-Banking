@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace InternetBanking.Core.Application.Services
 {
-    public class UserService :  IUserService
+    public class UserService : IUserService
     {
 
         private readonly IAccountService _accountService;
@@ -84,5 +84,12 @@ namespace InternetBanking.Core.Application.Services
             return await _accountService.ResetPasswordAsync(request);
         }
 
+        public async Task<List<UserViewModel>> GetAllVm()
+        {
+            var users = await this.GetAllUsers();
+            var usersVm = _mapper.Map<List<UserViewModel>>(users);
+
+            return usersVm;
+        }
     }
 }

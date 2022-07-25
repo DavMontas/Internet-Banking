@@ -8,7 +8,7 @@ namespace InternetBanking.Core.Application.ViewModels.Recipient
 {
     public class RecipientSaveViewModel
     {
-        public int Id { get; set; }
+        public string Id { get; set; }
         public int RecipientCode { get; set; }
 
 

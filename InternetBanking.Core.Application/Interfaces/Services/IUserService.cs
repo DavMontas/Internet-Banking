@@ -17,5 +17,7 @@ namespace InternetBanking.Core.Application.Interfaces.Services
         Task<ResetPasswordResponse> ResetPasswordAsync(ResetPassViewModel vm);
         Task SignOutAsync();
         Task<AuthenticationResponse> LoginAsync(LoginViewModel vm);
+
+        Task<List<UserViewModel>> GetAllVm();
     }
 }

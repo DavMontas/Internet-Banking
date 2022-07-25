@@ -1,4 +1,5 @@
-﻿using InternetBanking.Core.Application.ViewModels.User;
+﻿using InternetBanking.Core.Application.ViewModels.Products;
+using InternetBanking.Core.Application.ViewModels.User;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,12 +11,14 @@ namespace InternetBanking.Core.Application.ViewModels.Recipient
     public class RecipientViewModel
     {
         public string Id { get; set; }
+
+        public string UserId { get; set; }
         public UserViewModel User { get; set; }
 
 
 
         public int RecipientCode { get; set; }
-        public  UserViewModel Recipient { get; set; }
+        public  ProductViewModel Recipient { get; set; }
 
 
     }

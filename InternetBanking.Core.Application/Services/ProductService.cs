@@ -73,7 +73,7 @@ namespace InternetBanking.Core.Application.Services
             {
                 Id = product.Id,
 
-                ClientId = product.ClientId,
+                IdClient = product.ClientId,
                 TypeAccountId = product.TypeAccountId,
                 Charge = product.Charge,
 
@@ -81,7 +81,7 @@ namespace InternetBanking.Core.Application.Services
 
             if (idUser != null)
             {
-                listViewModels = listViewModels.Where(product => product.ClientId == idUser).ToList();
+                listViewModels = listViewModels.Where(product => product.IdClient == idUser).ToList();
             }
             if (listViewModels.Count() == 0)
             {
@@ -104,5 +104,13 @@ namespace InternetBanking.Core.Application.Services
 
             return products;
         }
+        public async Task<bool> ExistProduct(int IdProduct)
+        {
+            List<Product> products = await _repo.GetAllAsync();
+            bool exist = products.Any(e => e.Id == IdProduct);
+            return true;
+        }
+
+
     }
 }

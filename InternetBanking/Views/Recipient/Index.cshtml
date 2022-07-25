@@ -1,0 +1,60 @@
+﻿@using InternetBanking.Core.Application.Dtos.Account
+@using InternetBanking.Core.Application.Helpers
+@using Microsoft.AspNetCore.Http
+@using InternetBanking.Core.Application.ViewModels.Recipient;
+@inject IHttpContextAccessor httpContextAccesor
+@{
+    var user = httpContextAccesor.HttpContext.Session.Get<AuthenticationResponse>("user");
+
+}
+
+
+<div class="row">
+
+    <div class="row bg-light rounded p-3 mb-5">
+        <section class="w-100 d-flex justify-content-between align-items-center px-5">
+            <h3 class="fs-4 fw-bold fw-bolder m-2 w-100">
+                Dashboard
+                <span class="fs-5 fw-bold fw-bolder text-muted m-2 text-end w-100">
+                    / Administración de usuarios
+                </span>
+            </h3>
+            <a asp-controller="Home" asp-action="AddRecipient" class="btn btn-outline-dark">
+                Agregar Nuevo Beneficiario
+            </a>
+        </section>
+    </div>
+
+    <div class="col-8 mx-auto">
+
+        @if (ViewBag.Recipients == null)
+        {
+            <h2>No existen ningun beneficiario</h2>
+        }
+        else
+        {
+            <table class="table table-hover">
+                <thead>
+                    <tr class="table-primary">
+                        <th scope="col">Name</th>
+                        <th scope="col">AccountNumber</th>
+                        <th class="text-center" scope="col">Acciones</th>
+
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (RecipientViewModel item in ViewBag.Recipients)
+                    {
+                        <tr class="table-light">
+                            <td>@item.User.FirstName</td>
+                            <td>@item.Recipient.Code</td>
+                            
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
+
+    </div>
+</div>
+

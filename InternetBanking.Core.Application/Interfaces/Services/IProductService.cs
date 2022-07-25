@@ -11,5 +11,6 @@ namespace InternetBanking.Core.Application.Interfaces.Services
 
         Task<List<Product>> GetAllProductByUser(string idUser, int typeAccountId);
 
+        Task<bool> ExistProduct(int IdProduct);
     }
 }
