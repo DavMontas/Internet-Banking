@@ -28,7 +28,7 @@ namespace InternetBanking.Core.Application.Services
 
         public async Task AddSavingAccountAsync(string idUser, double amount)
         {
-            var products = await this.GetAllViewModelWithFilters(idUser);
+            var products = await ExistSavingAccountByUser(idUser);
 
             if (products != false)
             {
@@ -64,8 +64,20 @@ namespace InternetBanking.Core.Application.Services
                 await _repo.AddAsync(saveAccount);
             }
         }
+        public async Task<List<Product>> GetAllProductByUser(string idUser, int typeAccountId)
+        {
+            List<Product> products = await _repo.GetAllAsync();
+            products = products.Where(p => p.ClientId == idUser && p.TypeAccountId == typeAccountId).ToList();
 
-        private async Task<bool> GetAllViewModelWithFilters(string idUser)
+            return products;
+        }
+        public async Task<bool> ExistProduct(int IdProduct)
+        {
+            List<Product> products = await _repo.GetAllAsync();
+            bool exist = products.Any(e => e.Id == IdProduct);
+            return true;
+        }
+        private async Task<bool> ExistSavingAccountByUser(string idUser)
         {
             var productList = await _repo.GetAllAsync();
 
@@ -96,21 +108,5 @@ namespace InternetBanking.Core.Application.Services
             bool exist =  products.Any(e => e.AccountNumber == accountNumber);
             return exist;
         }
-
-        public async Task<List<Product>> GetAllProductByUser(string idUser, int typeAccountId)
-        {
-            List<Product> products = await _repo.GetAllAsync();
-            products = products.Where(p => p.ClientId == idUser && p.TypeAccountId == typeAccountId).ToList();
-
-            return products;
-        }
-        public async Task<bool> ExistProduct(int IdProduct)
-        {
-            List<Product> products = await _repo.GetAllAsync();
-            bool exist = products.Any(e => e.Id == IdProduct);
-            return true;
-        }
-
-
     }
 }

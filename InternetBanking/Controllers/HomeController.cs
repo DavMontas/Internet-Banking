@@ -104,7 +104,6 @@ namespace InternetBanking.Controllers
 
         public async Task<IActionResult> UpdateUser(string id)
         {
-            ViewBag.Roles = await _roleManager.Roles.ToListAsync();
             var user = HttpContext.Session.Get<AuthenticationResponse>("user");
 
             if (id == user.Id)

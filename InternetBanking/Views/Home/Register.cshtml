@@ -80,7 +80,7 @@
                                 <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
                             </div>
 
-                            @if ((!editMode || (editMode && rol == 2)))
+                            @if ((!editMode))
                             {
                                 <div class="form-floating mb-3">
                                     <select asp-for="TypeUser" value="@Model.TypeUser" class="form-select" aria-label="Default select example">
@@ -93,6 +93,11 @@
                                         }
                                     </select>
                                 </div>
+
+                                <div class="form-floating mb-3">
+                                    <input asp-for="Amount" class="form-control" placeholder="Monto Inicial" />
+                                    <label asp-for="Amount" class="form-label">Monto </label>
+                                </div>
                             }
 
 
@@ -104,16 +109,13 @@
                                     <label asp-for="Amount" class="form-label">Añadir Monto </label>
                                 </div>
                             }
-                            else
-                            {
-                                <div class="form-floating mb-3">
-                                    <input asp-for="Amount" class="form-control" placeholder="Monto Inicial" />
-                                    <label asp-for="Amount" class="form-label">Monto </label>
-                                </div>
-                            }
-
-
-
+                            @*else
+        {
+            <div class="form-floating mb-3">
+                <input asp-for="Amount" class="form-control" placeholder="Monto Inicial" />
+                <label asp-for="Amount" class="form-label">Monto </label>
+            </div>
+        }*@
 
                         </section>
                         <section class="col-11 mx-auto">
