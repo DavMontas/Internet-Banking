@@ -64,6 +64,16 @@ namespace InternetBanking.Core.Application.Services
                 await _repo.AddAsync(saveAccount);
             }
         }
+
+        public async Task AddAmountSavingAccount(string idUser, double amount)
+        {
+            List<Product> savingAccounts = await GetAllProductByUser(idUser, (int)AccountTypes.SavingAccount);
+            Product sAPrincipal = savingAccounts.Where(sav => sav.IsPrincipal == true).SingleOrDefault();
+
+            sAPrincipal.Charge += amount;
+
+            await _repo.UpdateAsync(sAPrincipal, sAPrincipal.Id);
+        }
         public async Task<List<Product>> GetAllProductByUser(string idUser, int typeAccountId)
         {
             List<Product> products = await _repo.GetAllAsync();

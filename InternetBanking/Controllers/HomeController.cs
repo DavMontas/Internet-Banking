@@ -38,9 +38,9 @@ namespace InternetBanking.Controllers
             var isAdmin = user.Roles.Contains(Roles.Admin.ToString());
             if (isAdmin)
             {
-                return View("DashboardAdmin");
+                return RedirectToAction("DashboardAdmin");
             }
-            return View("DashboardClient");
+            return RedirectToAction("DashboardClient");
         }
 
         [ServiceFilter(typeof(AdminAuthorize))]
@@ -58,11 +58,6 @@ namespace InternetBanking.Controllers
             ViewBag.CreditCard = await _productSvc.GetAllProductByUser(user.Id, (int)AccountTypes.CreditAccount);
             ViewBag.Loan = await _productSvc.GetAllProductByUser(user.Id, (int)AccountTypes.LoanAccount);
 
-            return View();
-        }
-
-        public async Task<IActionResult> Recipient()
-        {
             return View();
         }
 

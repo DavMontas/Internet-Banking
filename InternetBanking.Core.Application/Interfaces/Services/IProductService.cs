@@ -9,6 +9,8 @@ namespace InternetBanking.Core.Application.Interfaces.Services
     {
         Task AddSavingAccountAsync(string idUser, double amount);
 
+        Task AddAmountSavingAccount(string idUser, double amount);
+
         Task<List<Product>> GetAllProductByUser(string idUser, int typeAccountId);
 
         Task<bool> ExistProduct(int IdProduct);
