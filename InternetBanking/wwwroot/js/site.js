@@ -1,4 +1,21 @@
-﻿// Please see documentation at https://docs.microsoft.com/aspnet/core/client-side/bundling-and-minification
-// for details on configuring this project to bundle and minify static web assets.
+﻿const montoInput = document.querySelector("#monto");
+const montoLabel = document.querySelector("#montoLabel");
+const rolSelect = document.querySelector("#rol-select");
 
-// Write your JavaScript code.
+
+document.addEventListener('DOMContentLoaded', () => {
+    // To hide after loading the view
+    montoLabel.classList.add("d-none");
+    montoInput.setAttribute("type", "hidden");
+
+    rolSelect.onchange = (e) => {
+
+        if (e.target.value === "1") {
+            montoLabel.classList.add("d-none");
+            montoInput.setAttribute("type", "hidden");
+        } else {
+            montoLabel.classList.remove("d-none");
+            montoInput.setAttribute("type", "text");
+        }
+    }
+});
