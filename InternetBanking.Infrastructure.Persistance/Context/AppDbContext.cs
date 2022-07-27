@@ -1,6 +1,10 @@
-﻿using InternetBanking.Core.Domain.Common;
+﻿using InternetBanking.Core.Application.Dtos.Account;
+using InternetBanking.Core.Application.Helpers;
+using InternetBanking.Core.Application.ViewModels.User;
+using InternetBanking.Core.Domain.Common;
 using InternetBanking.Core.Domain.Entities;
 using InternetBanking.Infrastructure.Identity.Entities;
+using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -13,7 +17,13 @@ namespace InternetBanking.Infrastructure.Persistence.Context
 {
     public class AppDbContext : DbContext
     {
-        public AppDbContext(DbContextOptions<AppDbContext> options) : base(options) { }
+        private readonly IHttpContextAccessor _httpContextAccessor;
+        private UserViewModel user;
+
+        public AppDbContext(DbContextOptions<AppDbContext> options, IHttpContextAccessor http) : base(options) 
+        {
+            _httpContextAccessor = http;
+        }
 
         #region dbSets -->
         public DbSet<Product> Products { get; set; }
@@ -24,18 +34,23 @@ namespace InternetBanking.Infrastructure.Persistence.Context
 
         public override Task<int> SaveChangesAsync(CancellationToken ct = new())
         {
+            if (_httpContextAccessor.HttpContext != null)
+            {
+                user = _httpContextAccessor.HttpContext.Session.Get<UserViewModel>("user");
+            }
+
             foreach (var entry in ChangeTracker.Entries<AuditableBE>())
             {
                 switch (entry.State)
                 {
                     case EntityState.Added:
                         entry.Entity.Created = DateTime.Now;
-                        entry.Entity.CreatedBy = "DefaultAppUser";
+                        entry.Entity.CreatedBy = user.UserName;
 
                         break;
                     case EntityState.Modified:
                         entry.Entity.LastModified = DateTime.Now;
-                        entry.Entity.CreatedBy = "DefaultAppUser";
+                        entry.Entity.ModifiedBy = user.UserName;
                         break;
                 }
             }

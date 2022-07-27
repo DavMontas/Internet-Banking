@@ -120,7 +120,14 @@
 
                                     @foreach (var item in ViewBag.Roles)
                                     {
-                                        <option value="@count">@item.Name</option>
+                                        if (@item.Name == "Admin")
+                                        {
+                                            <option value="1">@item.Name</option>
+                                        }
+                                        else
+                                        {
+                                            <option value="2">@item.Name</option>
+                                        }
                                         count++;
                                     }
                                 </select>

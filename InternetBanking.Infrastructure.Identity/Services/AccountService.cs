@@ -114,7 +114,7 @@ namespace InternetBanking.Infrastructure.Identity.Services
                 PhoneNumber = req.PhoneNumber,
                 IsVerified = req.IsVerified,
                 TypeUser = req.TypeUser
-
+                
             };
 
             var result = await _userManager.CreateAsync(user, req.Password);
@@ -318,21 +318,31 @@ namespace InternetBanking.Infrastructure.Identity.Services
         //Method to get all users
         public async Task<List<AuthenticationResponse>> GetAllUsers()
         {
-            List<AuthenticationResponse> res = new();
-            List<ApplicationUser> users = new();
-            users = await _userManager.Users.ToListAsync();
-            return users.Select(user => new AuthenticationResponse
-            {
-                Id = user.Id,
-                IdCard = user.IdCard,
-                Email = user.Email,
-                FirstName = user.FirstName,
-                LastName = user.LastName,
-                UserName = user.UserName,
-                PhoneNumber = user.PhoneNumber,
-                IsVerified = user.IsVerified
+            var users = await _userManager.Users.ToListAsync();
 
-            }).ToList();
+            List<AuthenticationResponse> res = new();
+
+            foreach (var user in users)
+            {
+                var rol = await _userManager.GetRolesAsync(user).ConfigureAwait(false);
+
+                AuthenticationResponse user_res = new()
+                {
+                    Id = user.Id,
+                    FirstName = user.FirstName,
+                    LastName = user.LastName,
+                    IdCard = user.IdCard,
+                    UserName = user.UserName,
+                    Email = user.Email,
+                    PhoneNumber = user.PhoneNumber,
+                    Roles = rol.ToList(),
+                    IsVerified = user.IsVerified
+                };
+
+                res.Add(user_res);
+            };
+
+            return res;
         }
 
         //Method to get all users

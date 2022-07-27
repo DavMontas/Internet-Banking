@@ -37,10 +37,10 @@
                         <th scope="col">Nombre</th>
                         <th scope="col">Apellido</th>
                         <th scope="col">Usuario</th>
-                        @*<th scope="col">Rol</th>*@
+                        <th scope="col">Rol</th>
                         <th scope="col">Estado</th>
                         <th class="text-center" scope="col">Acciones</th>
-
+                        <th class="text-center" scope="col">Productos</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -50,24 +50,33 @@
                             <td>@item.FirstName</td>
                             <td>@item.LastName</td>
                             <td>@item.UserName</td>
-                            @*<td>@item.Roles</td>*@
+                            <td>
+                                @item.Roles[0]
+                            </td>
                             <td>@(item.IsVerified ? "Activo" : "Inactivo")</td>
                             <td>
-                                <div class="d-flex justify-content-center">
+                                <div class="d-flex justify-content-start w-100">
                                     @if (item.Id != user.Id)
                                     {
-                                        <a asp-controller="Home" asp-action="UpdateUser" asp-route-id="@item.Id" class="btn btn-sm btn-info me-2">Editar</a>
+                                        <a asp-controller="Home" asp-action="UpdateUser" asp-route-id="@item.Id" class="btn btn-sm btn-info me-2 w-100">Editar</a>
 
                                         @if (item.IsVerified)
                                         {
-                                            <a asp-controller="Home" asp-action="ActiveUser" asp-route-id="@item.Id" class="btn btn-sm btn-outline-danger">Desactivar</a>
+                                            <a asp-controller="Home" asp-action="ActiveUser" asp-route-id="@item.Id" class="btn btn-sm btn-outline-danger w-100">Desactivar</a>
                                         }
                                         else
                                         {
-                                            <a asp-controller="Home" asp-action="ActiveUser" asp-route-id="@item.Id" class="btn btn-sm btn-outline-success">Activar</a>
+                                            <a asp-controller="Home" asp-action="ActiveUser" asp-route-id="@item.Id" class="btn btn-sm btn-outline-success w-100">Activar</a>
                                         }
                                     }
                                 </div>
+                            </td>
+
+                            <td>
+                                @if (@item.Roles[0] == Roles.Basic.ToString())
+                                {
+                                    <a asp-controller="Home" asp-action="Products" asp-route-id="@item.Id" class="btn btn-sm btn-outline-dark w-100">Ver</a>
+                                }
                             </td>
                         </tr>
                     }
