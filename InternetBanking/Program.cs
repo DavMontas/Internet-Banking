@@ -39,10 +39,6 @@ namespace InternetBanking
                     await DefaultSavingAccount.SeedAsync(productRepo);
                     await DefaultCreditAccount.SeedAsync(productRepo);
                     await DefaultLoanAccount.SeedAsync(productRepo);
-
-
-
-
                 }
                 catch (Exception)
                 {

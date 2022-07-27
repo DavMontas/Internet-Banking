@@ -64,6 +64,15 @@ namespace InternetBanking.Core.Application.Services
                 await _repo.AddAsync(saveAccount);
             }
         }
+        public async Task AddAmountSavingAccount(string idUser, double amount)
+        {
+            List<Product> savingAccounts = await GetAllProductByUser(idUser, (int)AccountTypes.SavingAccount);
+            Product sAPrincipal = savingAccounts.Where(sav => sav.IsPrincipal == true).SingleOrDefault();
+
+            sAPrincipal.Charge += amount;
+
+            await _repo.UpdateAsync(sAPrincipal, sAPrincipal.Id);
+        }
         public async Task<List<Product>> GetAllProductByUser(string idUser, int typeAccountId)
         {
             List<Product> products = await _repo.GetAllAsync();
@@ -71,21 +80,52 @@ namespace InternetBanking.Core.Application.Services
 
             return products;
         }
+        public async Task<ProductViewModel> GetProductByNumberAccountForPayment(string numberAccount, double amountToPay = -1.0)
+        {
+            ProductViewModel response = new();
+            response.HasError = false;
+
+            List<Product> products = await _repo.GetAllAsync();
+            var product = products.Where(ac => ac.AccountNumber == numberAccount)
+                    .SingleOrDefault();
+
+            if (product != null)
+            {
+                response = _mapper.Map<ProductViewModel>(product);
+                
+                if (response.Charge > amountToPay)
+                {
+                    return response;
+                }
+                else
+                {
+                    response.HasError = true;
+                    response.Error = "La cuenta no tiene el monto suficiente para realizar ese pago";
+                }
+            }
+            else
+            {
+                response.HasError = true;
+                response.Error = "No existe ese numero de cuenta en el sistema";
+            }
+
+            return response;
+        }
         public async Task<bool> ExistProduct(int IdProduct)
         {
             List<Product> products = await _repo.GetAllAsync();
             bool exist = products.Any(e => e.Id == IdProduct);
-            return true;
+            return exist;
         }
         private async Task<bool> ExistSavingAccountByUser(string idUser)
         {
             var productList = await _repo.GetAllAsync();
 
-            var listViewModels = productList.Where(e => e.ClientId == idUser && e.TypeAccountId == 1).Select(product => new ProductViewModel
+            var listViewModels = productList.Where(e => e.ClientId == idUser && e.TypeAccountId == (int)AccountTypes.SavingAccount).Select(product => new ProductViewModel
             {
                 Id = product.Id,
 
-                IdClient = product.ClientId,
+                ClientId = product.ClientId,
                 TypeAccountId = product.TypeAccountId,
                 Charge = product.Charge,
 
@@ -93,7 +133,7 @@ namespace InternetBanking.Core.Application.Services
 
             if (idUser != null)
             {
-                listViewModels = listViewModels.Where(product => product.IdClient == idUser).ToList();
+                listViewModels = listViewModels.Where(product => product.ClientId == idUser).ToList();
             }
             if (listViewModels.Count() == 0)
             {

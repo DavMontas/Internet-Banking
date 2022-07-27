@@ -15,9 +15,7 @@ namespace InternetBanking.Core.Application.ViewModels.Recipient
         public string UserId { get; set; }
         public UserViewModel User { get; set; }
 
-
-
-        public int RecipientCode { get; set; }
+        public string RecipientCode { get; set; }
         public  ProductViewModel Recipient { get; set; }
 
 

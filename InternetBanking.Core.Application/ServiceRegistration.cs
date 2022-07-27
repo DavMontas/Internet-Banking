@@ -13,10 +13,12 @@ namespace InternetBanking.Core.Application
             service.AddAutoMapper(Assembly.GetExecutingAssembly());
 
             #region Services
+
             service.AddTransient<IUserService, UserService>();
             service.AddTransient<IProductService, ProductService>();
             service.AddTransient<ITypeAccountService, TypeAccountService>();
             service.AddTransient<IRecipientService, RecipientService>();
+            service.AddTransient<IPaymentService, PaymentService>();
 
             #endregion
         }

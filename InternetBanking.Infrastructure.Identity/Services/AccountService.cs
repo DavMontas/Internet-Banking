@@ -153,24 +153,47 @@ namespace InternetBanking.Infrastructure.Identity.Services
             ApplicationUser user = await _userManager.FindByIdAsync(id);
             if (user != null)
             {
-                user.IdCard = req.IdCard;
-                user.FirstName = req.FirstName;
-                user.LastName = req.LastName;
-                user.UserName = req.UserName;
-                user.Email = req.Email;
-                user.PhoneNumber = req.PhoneNumber;
-                user.PasswordHash = _userManager.PasswordHasher.HashPassword(user, req.Password);
-                user.TypeUser = req.TypeUser;
-               
-                var userUpdated = await _userManager.UpdateAsync(user);
-                if (!userUpdated.Succeeded)
+                if (user.TypeUser == (int)Roles.Admin)
                 {
-                    res.HasError = true;
-                    res.Error = "Error when trying update the user";
+                    user.IdCard = req.IdCard;
+                    user.FirstName = req.FirstName;
+                    user.LastName = req.LastName;
+                    user.UserName = req.UserName;
+                    user.Email = req.Email;
+                    user.PhoneNumber = req.PhoneNumber;
+                    user.PasswordHash = _userManager.PasswordHasher.HashPassword(user, req.Password);
+
+                    var userUpdated = await _userManager.UpdateAsync(user);
+                    if (!userUpdated.Succeeded)
+                    {
+                        res.HasError = true;
+                        res.Error = "Error when trying update the user";
+                        return res;
+
+                    }
                     return res;
-                    
                 }
-                return res;
+                else
+                {
+                    user.IdCard = req.IdCard;
+                    user.FirstName = req.FirstName;
+                    user.LastName = req.LastName;
+                    user.UserName = req.UserName;
+                    user.Email = req.Email;
+                    user.PhoneNumber = req.PhoneNumber;
+                    user.PasswordHash = _userManager.PasswordHasher.HashPassword(user, req.Password);
+
+                    var userUpdated = await _userManager.UpdateAsync(user);
+                    if (!userUpdated.Succeeded)
+                    {
+                        res.HasError = true;
+                        res.Error = "Error when trying update the user";
+                        return res;
+                    }
+                    await _productSvc.AddAmountSavingAccount(user.Id, req.Amount);
+                    return res;
+                }
+                
             }
             else
             {

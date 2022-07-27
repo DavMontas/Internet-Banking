@@ -21,7 +21,7 @@ namespace InternetBanking.Infrastructure.Identity.Seeds
             defaultUser.IsVerified = true;
             defaultUser.EmailConfirmed = true;
             defaultUser.PhoneNumberConfirmed = true;
-            defaultUser.TypeUser = 1;
+            defaultUser.TypeUser = 2;
 
             if (userManager.Users.All(u => u.Id != defaultUser.Id))
             {

@@ -1,0 +1,27 @@
+﻿@using InternetBanking.Core.Application.ViewModels.Payment;
+@model SavePaymentViewModel  
+@{
+    ViewData["Title"] = "ConfirmExpressPayment";
+}
+
+<div class="container-fluid">
+    <div class="d-flex justify-content-center">
+        <div class="col-6">
+            <div class="card my-5">
+                <div class="card-header bg-danger text-light">
+                    <h3>@Model.Owner esta seguro que desea realizar este pago</h3>
+                </div>
+                <div class="card-body text-center">
+                    <form method="post" asp-controller="Payment" asp-action="ConfirmPayment">
+                        <input type="hidden" asp-for="PaymentAccount" />
+                        <input type="hidden" asp-for="PaymentDestinationAccount" />
+                        <input type="hidden" asp-for="AmountToPay" />
+
+                        <button type="submit" class="btn btn-outline-danger me-3">Si</button>
+                        <a asp-controller="Home" asp-action="Index" class="btn btn-outline-secondary">No</a>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
