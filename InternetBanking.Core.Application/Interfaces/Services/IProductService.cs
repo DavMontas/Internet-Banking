@@ -13,6 +13,8 @@ namespace InternetBanking.Core.Application.Interfaces.Services
 
         Task<List<Product>> GetAllProductByUser(string idUser, int typeAccountId);
 
+        Task<ProductViewModel> GetProductByNumberAccountForPayment(string numberAccount, double amountToPay = -1.0);
+
         Task<bool> ExistProduct(int IdProduct);
     }
 }

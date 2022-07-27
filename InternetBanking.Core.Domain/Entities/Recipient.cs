@@ -11,7 +11,7 @@ namespace InternetBanking.Core.Domain.Entities
     {
         public int Id { get; set; }
         public int UserId { get; set; }
-        public int RecipientCode { get; set; }
+        public string RecipientCode { get; set; }
 
     }
 }

@@ -19,6 +19,41 @@ namespace InternetBanking.Infrastructure.Persistence.Migrations
                 .HasAnnotation("ProductVersion", "5.0.17")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+            modelBuilder.Entity("InternetBanking.Core.Domain.Entities.Payment", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<double>("AmountToPay")
+                        .HasColumnType("float");
+
+                    b.Property<DateTime>("Created")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("CreatedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("LastModified")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("ModifiedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PaymentAccount")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PaymentDestinationAccount")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Payments");
+                });
+
             modelBuilder.Entity("InternetBanking.Core.Domain.Entities.Product", b =>
                 {
                     b.Property<int>("Id")
@@ -73,9 +108,12 @@ namespace InternetBanking.Infrastructure.Persistence.Migrations
                     b.Property<int>("RecipientCode")
                         .HasColumnType("int");
 
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
 
-                    b.ToTable("Recipient");
+                    b.ToTable("Recipients");
                 });
 
             modelBuilder.Entity("InternetBanking.Infrastructure.Identity.Entities.TypeAccount", b =>
@@ -104,7 +142,7 @@ namespace InternetBanking.Infrastructure.Persistence.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("TypeAccount");
+                    b.ToTable("TypeAccounts");
                 });
 
             modelBuilder.Entity("InternetBanking.Core.Domain.Entities.Product", b =>

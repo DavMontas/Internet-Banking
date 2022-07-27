@@ -36,7 +36,7 @@ namespace InternetBanking.Core.Application.Services
 
             foreach (var recipient in recipientList)
             {
-                recipient.Recipient = productList.Where(e => e.Code == recipient.RecipientCode).FirstOrDefault();
+                recipient.Recipient = productList.Where(e => e.AccountNumber == recipient.RecipientCode).FirstOrDefault();
 
                 recipient.User = userList.Where(e => e.Id == recipient.UserId).FirstOrDefault();
             }

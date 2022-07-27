@@ -19,6 +19,7 @@ namespace InternetBanking.Infrastructure.Persistence.Context
         public DbSet<Product> Products { get; set; }
         public DbSet<TypeAccount> TypeAccounts { get; set; }
         public DbSet<Recipient> Recipients { get; set; }
+        public DbSet<Payment> Payments { get; set; }
         #endregion
 
         public override Task<int> SaveChangesAsync(CancellationToken ct = new())
@@ -49,10 +50,13 @@ namespace InternetBanking.Infrastructure.Persistence.Context
                 .ToTable("Products");
 
             mb.Entity<TypeAccount>()
-                .ToTable("TypeAccount");
+                .ToTable("TypeAccounts");
 
             mb.Entity<Recipient>()
-                .ToTable("Recipient");
+                .ToTable("Recipients");
+
+            mb.Entity<Payment>()
+                .ToTable("Payments");
             #endregion
 
             #region primary keys
@@ -65,6 +69,9 @@ namespace InternetBanking.Infrastructure.Persistence.Context
 
             mb.Entity<Recipient>()
                 .HasKey(e => e.Id);
+
+            mb.Entity<Payment>()
+               .HasKey(e => e.Id);
 
             #endregion
 
@@ -81,18 +88,34 @@ namespace InternetBanking.Infrastructure.Persistence.Context
 
             #region property configurations
 
-            #region products
+            #region Products
             //mb.Entity<Product>()
             //    .Property(p => p.Id)
             //    .IsRequired();
             #endregion
 
-            #region typeaccount
+            #region Typeaccount
 
             mb.Entity<TypeAccount>()
                 .Property(e => e.NameAccount)
                 .IsRequired()
                 .HasMaxLength(150);
+
+            #endregion
+
+            #region Payment
+
+            mb.Entity<Payment>()
+                .Property(e => e.AmountToPay)
+                .IsRequired();
+            
+            mb.Entity<Payment>()
+                .Property(e => e.PaymentAccount)
+                .IsRequired();
+
+            mb.Entity<Payment>()
+                .Property(e => e.PaymentDestinationAccount)
+                .IsRequired();
 
             #endregion
 

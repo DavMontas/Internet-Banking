@@ -5,6 +5,7 @@ using InternetBanking.Core.Application.Interfaces.Services;
 using InternetBanking.Core.Application.ViewModels.Recipient;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -42,7 +43,7 @@ namespace WebApp.InternetBanking.Controllers
             var recipient = await _recipientSvc.GetAllVm();
             var products = await _productSvc.GetAllVm();
 
-            var SavingAccounts = products.Where(e => e.Code == vm.RecipientCode).SingleOrDefault();
+            var SavingAccounts = products.Where(e => e.AccountNumber == vm.RecipientCode).SingleOrDefault();
 
             recipient = recipient.Where(e => e.UserId == response.Id).ToList();
             ViewBag.Recipients = recipient;
@@ -52,13 +53,13 @@ namespace WebApp.InternetBanking.Controllers
                 return RedirectToRoute(new {controller = "Recipient", action = "Index" });
             }
 
-            if (!await _productSvc.ExistProduct(vm.RecipientCode))
+            if (!await _productSvc.ExistProduct(Convert.ToInt32(vm.RecipientCode)))
             {
                 ModelState.AddModelError("", "El numero de cuenta ingresado es invalido");
                 return View("Index", vm);
             }
 
-            if (SavingAccounts.ClientId == (int)AccountTypes.LoanAccount || SavingAccounts.ClientId == (int)AccountTypes.CreditAccount)
+            if (SavingAccounts.ClientId == AccountTypes.LoanAccount.ToString() || SavingAccounts.ClientId == AccountTypes.CreditAccount.ToString())
             {
                 ModelState.AddModelError("", "El numero de cuenta ingresado no es de una cuenta de ahorro.");
                 return View("Index", vm);

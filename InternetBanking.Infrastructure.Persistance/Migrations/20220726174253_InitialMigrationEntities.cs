@@ -3,25 +3,45 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace InternetBanking.Infrastructure.Persistence.Migrations
 {
-    public partial class addingAdminServices : Migration
+    public partial class InitialMigrationEntities : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "Recipient",
+                name: "Payments",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
+                    AmountToPay = table.Column<double>(type: "float", nullable: false),
+                    PaymentAccount = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    PaymentDestinationAccount = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    CreatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Created = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    ModifiedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    LastModified = table.Column<DateTime>(type: "datetime2", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Payments", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Recipients",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    UserId = table.Column<int>(type: "int", nullable: false),
                     RecipientCode = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Recipient", x => x.Id);
+                    table.PrimaryKey("PK_Recipients", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
-                name: "TypeAccount",
+                name: "TypeAccounts",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
@@ -34,7 +54,7 @@ namespace InternetBanking.Infrastructure.Persistence.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_TypeAccount", x => x.Id);
+                    table.PrimaryKey("PK_TypeAccounts", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -58,9 +78,9 @@ namespace InternetBanking.Infrastructure.Persistence.Migrations
                 {
                     table.PrimaryKey("PK_Products", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Products_TypeAccount_TypeAccountId",
+                        name: "FK_Products_TypeAccounts_TypeAccountId",
                         column: x => x.TypeAccountId,
-                        principalTable: "TypeAccount",
+                        principalTable: "TypeAccounts",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -74,13 +94,16 @@ namespace InternetBanking.Infrastructure.Persistence.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
+                name: "Payments");
+
+            migrationBuilder.DropTable(
                 name: "Products");
 
             migrationBuilder.DropTable(
-                name: "Recipient");
+                name: "Recipients");
 
             migrationBuilder.DropTable(
-                name: "TypeAccount");
+                name: "TypeAccounts");
         }
     }
 }
