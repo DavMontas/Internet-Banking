@@ -11,8 +11,9 @@ namespace InternetBanking.Core.Application.ViewModels.Recipient
     {
         public int Id { get; set; }
         public string UserId { get; set; }
-
+        [Required(ErrorMessage = "Tiene que indicar un numero de cuenta")]
         public string RecipientCode { get; set; }
+        public string OwnerAccount { get; set; }
 
     }
 }

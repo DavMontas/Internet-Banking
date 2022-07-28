@@ -17,7 +17,7 @@ namespace InternetBanking.Core.Application.ViewModels.Recipient
 
         public string RecipientCode { get; set; }
         public  ProductViewModel Recipient { get; set; }
-
+        public string OwnerAccount { get; set; }
 
     }
 }

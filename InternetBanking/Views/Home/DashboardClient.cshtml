@@ -29,8 +29,8 @@
                 </a>
                 <div class="dropdown-menu dropdown-menu-dark shadow" style="position: absolute; inset: 0px auto auto 0px; margin: 0px; transform: translate3d(0px, 42px, 0px);" data-popper-placement="bottom-start">
                     <a class="dropdown-item" asp-controller="Payment" asp-action="ExpressPayment">Expreso</a>
-                    <a class="dropdown-item" href="#">Tarjeta de Crédito</a>
-                    <a class="dropdown-item" href="#">Préstamos</a>
+                    <a class="dropdown-item" asp-controller="Payment" asp-action="CreditPayment">Tarjeta de Crédito</a>
+                    <a class="dropdown-item" asp-controller="Payment" asp-action="LoamPayment">Préstamos</a>
                     <a class="dropdown-item" href="#">Beneficiarios</a>
                 </div>
             </li>

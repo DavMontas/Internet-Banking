@@ -6,12 +6,11 @@
 }
 
 
-<div class="row">
-
+<div class="row mt-5">
     <div class="col-6 offset-3">
         <div class="card">
             <div class="card-header bg-danger text-light">
-                <h4>Estas seguro que desea eliminar este Beneficiary?</h4>
+                <h4 class="text-center">Estas seguro que desea eliminar este beneficiario?</h4>
             </div>
             <div class="card-body">
 
@@ -20,7 +19,7 @@
                     </div>
                     <input type="hidden" asp-for="Id" />
                     <div class="text-center">
-                        <button type="submit" class="btn btn-danger">Eliminar</button>
+                        <button type="submit" class="btn btn-danger me-3">Eliminar</button>
                         <a asp-controller="Recipient" asp-action="Index" class="btn btn-success">Cancelar</a>
                     </div>
                 </form>

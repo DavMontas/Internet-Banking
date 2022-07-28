@@ -23,7 +23,7 @@ namespace InternetBanking.Core.Application.Services
             _mapper = mapper;
         }
 
-        public async Task ExpressPayment(SavePaymentViewModel vm)
+        public async Task Payment(SavePaymentViewModel vm)
         {
             try
             {
@@ -37,18 +37,37 @@ namespace InternetBanking.Core.Application.Services
 
                 if (accountToPay != null && accountDestination != null)
                 {
-                    var disCharge = accountToPay.Charge - vm.AmountToPay;
-                    accountToPay.Charge = disCharge;
-                    accountToPay.Discharge += vm.AmountToPay;
-                    ProductSaveViewModel acToPayUpdated = _mapper.Map<ProductSaveViewModel>(accountToPay);
-                    await _productService.Update(acToPayUpdated, acToPayUpdated.Id);
+                    if (accountDestination.TypeAccountId == (int)AccountTypes.SavingAccount)
+                    {
+                        var disCharge = accountToPay.Charge - vm.AmountToPay;
+                        accountToPay.Charge = disCharge;
+                        accountToPay.Discharge += vm.AmountToPay;
+                        ProductSaveViewModel acToPayUpdated = _mapper.Map<ProductSaveViewModel>(accountToPay);
+                        await _productService.Update(acToPayUpdated, acToPayUpdated.Id);
 
-                    accountDestination.Charge += vm.AmountToPay;
-                    ProductSaveViewModel acDsUpdated = _mapper.Map<ProductSaveViewModel>(accountDestination);
-                    await _productService.Update(acDsUpdated, acDsUpdated.Id);
+                        accountDestination.Charge += vm.AmountToPay;
+                        ProductSaveViewModel acDsUpdated = _mapper.Map<ProductSaveViewModel>(accountDestination);
+                        await _productService.Update(acDsUpdated, acDsUpdated.Id);
+                    }
+                    if 
+                        (accountDestination.TypeAccountId == (int)AccountTypes.CreditAccount ||
+                        accountDestination.TypeAccountId == (int)AccountTypes.LoanAccount)
+                    {
+                        var disCharge = accountToPay.Charge - vm.AmountToPay;
+                        accountToPay.Charge = disCharge;
+                        accountToPay.Discharge += vm.AmountToPay;
+                        ProductSaveViewModel acToPayUpdated = _mapper.Map<ProductSaveViewModel>(accountToPay);
+                        await _productService.Update(acToPayUpdated, acToPayUpdated.Id);
+
+                        accountDestination.Charge -= vm.AmountToPay;
+                        accountDestination.Discharge = vm.AmountToPay;
+                        ProductSaveViewModel acDsUpdated = _mapper.Map<ProductSaveViewModel>(accountDestination);
+                        await _productService.Update(acDsUpdated, acDsUpdated.Id);
+                    }
 
                     Payment payment = _mapper.Map<Payment>(vm);
                     await _repo.AddAsync(payment);
+                    
                 }
             }
             catch (System.Exception)

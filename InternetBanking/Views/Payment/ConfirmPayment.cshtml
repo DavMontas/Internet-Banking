@@ -12,7 +12,7 @@
                     <h3>@Model.Owner esta seguro que desea realizar este pago</h3>
                 </div>
                 <div class="card-body text-center">
-                    <form method="post" asp-controller="Payment" asp-action="ConfirmPayment">
+                    <form method="post" asp-controller="Payment" asp-action="ConfirmPaymentPost">
                         <input type="hidden" asp-for="PaymentAccount" />
                         <input type="hidden" asp-for="PaymentDestinationAccount" />
                         <input type="hidden" asp-for="AmountToPay" />

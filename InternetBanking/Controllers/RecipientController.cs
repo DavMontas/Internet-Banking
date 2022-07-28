@@ -37,19 +37,6 @@ namespace WebApp.InternetBanking.Controllers
             recipients = recipients.Where(r => r.UserId == response.Id).ToList();
 
             ViewBag.Recipients = recipients;
-
-            //List<UserSaveViewModel> owners = new();
-
-            //foreach (var item in recipients)
-            //{
-            //    // To get owner of beneficiary account
-            //    var product = await _productSvc.GetProductByNumberAccountForPayment(item.RecipientCode);
-            //    var owner = await _userService.GetUserById(product.ClientId);
-            //    owners.Add(owner);
-            //}
-
-            //ViewBag.Owners = owners;
-
             return View();
         }
 
@@ -73,37 +60,40 @@ namespace WebApp.InternetBanking.Controllers
             var recipient = await _recipientSvc.GetAllVm();
             var products = await _productSvc.GetAllVm();
 
-            var SavingAccounts = products.Where(e => e.AccountNumber == vm.RecipientCode).SingleOrDefault();
+            var savingAccount = products.Where(e => e.AccountNumber == vm.RecipientCode).SingleOrDefault();
 
             recipient = recipient.Where(e => e.UserId == response.Id).ToList();
             ViewBag.Recipients = recipient;
 
 
-            //if (!ModelState.IsValid)
-            //{
-            //    return RedirectToRoute(new { controller = "Recipient", action = "Index" });
-            //}
+            if (!ModelState.IsValid && vm.RecipientCode == null)
+            {
+                return View(vm);
+            }
 
             if (!await _productSvc.ExistCodeNumber(vm.RecipientCode))
             {
-                ModelState.AddModelError("", "El numero de cuenta ingresado es invalido");
+                ModelState.AddModelError("AccountValidation", "El numero de cuenta ingresado es invalido");
                 return View("Index", vm);
             }
 
-            if (SavingAccounts.ClientId == AccountTypes.LoanAccount.ToString() || SavingAccounts.ClientId == AccountTypes.CreditAccount.ToString())
+            if (savingAccount.TypeAccountId == (int)AccountTypes.CreditAccount || savingAccount.TypeAccountId == (int)AccountTypes.LoanAccount)
             {
-                ModelState.AddModelError("", "El numero de cuenta ingresado no es de una cuenta de ahorro.");
+                ModelState.AddModelError("AccountValidation", "El numero de cuenta ingresado no es de una cuenta de ahorro.");
                 return View("Index", vm);
             }
 
-            var anyRecipient = recipient.Any(e => e.RecipientCode == vm.RecipientCode);
+            var anyRecipient = recipient
+                .Any(e => e.RecipientCode == vm.RecipientCode && e.UserId == vm.UserId);
 
             if (anyRecipient)
             {
-                ModelState.AddModelError("","Ya existe un beneficiario con este numero de cuenta.");
+                ModelState.AddModelError("AccountValidation", "Ya existe un beneficiario con este numero de cuenta.");
                 return View("Index", vm);
             }
 
+            var beneficiary = await _userService.GetUserById(savingAccount.ClientId);
+            vm.OwnerAccount = $"{beneficiary.FirstName} {beneficiary.LastName}";
 
             RecipientSaveViewModel recipientVm = await _recipientSvc.Add(vm);
             return RedirectToRoute(new { controller = "Recipient", action = "Index" }) ;

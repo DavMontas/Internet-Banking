@@ -59,18 +59,74 @@ namespace WebApp.InternetBanking.Controllers
             }
             var owner = await _userService.GetUserById(accountToPay.ClientId);
             vm.Owner = $"{owner.FirstName} {owner.LastName}";
-            return RedirectToAction("ConfirmExpressPayment", vm);
+            return RedirectToAction("ConfirmPayment", vm);
         }
 
-        public ActionResult ConfirmExpressPayment(SavePaymentViewModel vm)
+        public ActionResult CreditPayment()
+        {
+            return View(new SavePaymentViewModel());
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> CreditPayment(SavePaymentViewModel vm)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(vm);
+            }
+
+            ProductViewModel accountToPay = await
+                _productService.GetProductByNumberAccountForPayment
+                (vm.PaymentAccount, vm.AmountToPay);
+
+            if (accountToPay.HasError)
+            {
+                vm.HasError = accountToPay.HasError;
+                vm.Error = accountToPay.Error;
+                return View(vm);
+            }
+            var owner = await _userService.GetUserById(accountToPay.ClientId);
+            vm.Owner = $"{owner.FirstName} {owner.LastName}";
+            return RedirectToAction("ConfirmPayment", vm);
+        }
+
+        public ActionResult LoamPayment()
+        {
+            return View(new SavePaymentViewModel());
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> LoamPayment(SavePaymentViewModel vm)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(vm);
+            }
+
+            ProductViewModel accountToPay = await
+                _productService.GetProductByNumberAccountForPayment
+                (vm.PaymentAccount, vm.AmountToPay);
+
+            if (accountToPay.HasError)
+            {
+                vm.HasError = accountToPay.HasError;
+                vm.Error = accountToPay.Error;
+                return View(vm);
+            }
+            var owner = await _userService.GetUserById(accountToPay.ClientId);
+            vm.Owner = $"{owner.FirstName} {owner.LastName}";
+            return RedirectToAction("ConfirmPayment", vm);
+        }
+        
+        public ActionResult ConfirmPayment(SavePaymentViewModel vm)
         {
             return View(vm);
         }
 
         [HttpPost]
-        public async Task<IActionResult> ConfirmPayment(SavePaymentViewModel vm)
+        public async Task<IActionResult> ConfirmPaymentPost(SavePaymentViewModel vm)
         {
-            await _paymentSvc.ExpressPayment(vm);
+            await _paymentSvc.Payment(vm);
             return RedirectToRoute(new { controller = "Home", action = "Index" });
         }   
     }

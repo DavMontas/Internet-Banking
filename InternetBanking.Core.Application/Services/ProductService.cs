@@ -19,14 +19,12 @@ namespace InternetBanking.Core.Application.Services
     {
         private readonly AccountNumberGenerator _numberGenerator = new();
         private readonly IProductRepository _repo;
-        //private readonly IUserService _userSvc;
         private readonly IMapper _mapper;
 
         public ProductService(IProductRepository repo, IMapper mapper) : base(repo, mapper)
         {
             _repo = repo;
             _mapper = mapper;
-            //_userSvc = userSvc;
         }
 
         public async Task AddSavingAccountAsync(string idUser, double amount)
@@ -120,22 +118,6 @@ namespace InternetBanking.Core.Application.Services
 
             return productsVm;
         }
-
-        //public async Task<List<ProductViewModel>> GetAllProductWithList(string idUser)
-        //{
-        //    var users = await _userSvc.GetAllVm();
-
-        //    List<Product> products = await _repo.GetAllWithIncludeAsync(new List<string> { "TypeAccount" });
-        //    List<ProductViewModel> productsVm = _mapper.Map<List<ProductViewModel>>(products);
-
-        //    foreach (var item in productsVm)
-        //    {
-        //        item.Client = users.Where(x => x.Id == item.ClientId).SingleOrDefault();
-        //    }
-
-        //    return productsVm;
-        //}
-
         public async Task<List<Product>> GetAllProductByUser(string idUser, int typeAccountId)
         {
             List<Product> products = await _repo.GetAllAsync();
