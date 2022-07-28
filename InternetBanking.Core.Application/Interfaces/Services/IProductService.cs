@@ -16,5 +16,7 @@ namespace InternetBanking.Core.Application.Interfaces.Services
         Task<ProductViewModel> GetProductByNumberAccountForPayment(string numberAccount, double amountToPay = -1.0);
 
         Task<bool> ExistProduct(int IdProduct);
+
+        Task<bool> ExistCodeNumber(string accountNumber);
     }
 }

@@ -142,7 +142,7 @@ namespace InternetBanking.Core.Application.Services
 
             return true;
         }
-        private async Task<bool> ExistCodeNumber(string accountNumber)
+        public async Task<bool> ExistCodeNumber(string accountNumber)
         {
             List<Product> products = await _repo.GetAllAsync();
             bool exist =  products.Any(e => e.AccountNumber == accountNumber);

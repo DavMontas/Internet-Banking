@@ -1,0 +1,32 @@
+﻿@using InternetBanking.Core.Application.ViewModels.Recipient
+@model RecipientSaveViewModel
+
+@{
+    ViewData["Title"] = "Eliminar";
+}
+
+
+<div class="row">
+
+    <div class="col-6 offset-3">
+        <div class="card">
+            <div class="card-header bg-danger text-light">
+                <h4>Estas seguro que desea eliminar este Beneficiary?</h4>
+            </div>
+            <div class="card-body">
+
+                <form method="post" asp-controller="Recipient" asp-action="DeleteRecipient">
+                    <div class="form-group">
+                    </div>
+                    <input type="hidden" asp-for="Id" />
+                    <div class="text-center">
+                        <button type="submit" class="btn btn-danger">Eliminar</button>
+                        <a asp-controller="Beneficiary" asp-action="Index" class="btn btn-success">Cancelar</a>
+                    </div>
+                </form>
+
+            </div>
+        </div>
+    </div>
+
+</div>

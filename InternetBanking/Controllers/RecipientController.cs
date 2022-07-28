@@ -35,10 +35,22 @@ namespace WebApp.InternetBanking.Controllers
             return View();
         }
 
+        public async Task<IActionResult> Delete(int id)
+        {
+            return View(await _recipientSvc.GetByIdAsync(id));
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> DeleteRecipient(RecipientSaveViewModel vm)
+        {
+            await _recipientSvc.Delete(vm.Id);
+            return RedirectToRoute(new { controller = "Recipient", action = "Index" });
+        }
+
         [HttpPost]
         public async Task<IActionResult> Index(RecipientSaveViewModel vm)
         {
-            vm.Id = response.Id;
+            vm.UserId = response.Id;
             
             var recipient = await _recipientSvc.GetAllVm();
             var products = await _productSvc.GetAllVm();
@@ -48,12 +60,12 @@ namespace WebApp.InternetBanking.Controllers
             recipient = recipient.Where(e => e.UserId == response.Id).ToList();
             ViewBag.Recipients = recipient;
 
-            if (!ModelState.IsValid)
-            {
-                return RedirectToRoute(new {controller = "Recipient", action = "Index" });
-            }
+            //if (!ModelState.IsValid)
+            //{
+            //    return RedirectToRoute(new { controller = "Recipient", action = "Index" });
+            //}
 
-            if (!await _productSvc.ExistProduct(Convert.ToInt32(vm.RecipientCode)))
+            if (!await _productSvc.ExistCodeNumber(vm.RecipientCode))
             {
                 ModelState.AddModelError("", "El numero de cuenta ingresado es invalido");
                 return View("Index", vm);
