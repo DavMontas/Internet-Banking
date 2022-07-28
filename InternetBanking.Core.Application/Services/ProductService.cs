@@ -20,6 +20,7 @@ namespace InternetBanking.Core.Application.Services
         private readonly AccountNumberGenerator _numberGenerator = new();
         private readonly IProductRepository _repo;
         private readonly IMapper _mapper;
+
         public ProductService(IProductRepository repo, IMapper mapper) : base(repo, mapper)
         {
             _repo = repo;
@@ -64,6 +65,42 @@ namespace InternetBanking.Core.Application.Services
                 await _repo.AddAsync(saveAccount);
             }
         }
+        public async Task CreateAccountAsync(string idUser, double amount, int typeAccount)
+        {
+            if (typeAccount == (int)AccountTypes.CreditAccount)
+            {
+                Product saveAccount = new();
+                saveAccount.ClientId = idUser;
+                saveAccount.Charge = amount;
+                saveAccount.AccountNumber = _numberGenerator.NumberGenerator();
+                saveAccount.TypeAccountId = (int)AccountTypes.CreditAccount;
+
+                if (await ExistCodeNumber(saveAccount.AccountNumber))
+                {
+                    var newAccountNumber = _numberGenerator.NumberGenerator();
+                    saveAccount.AccountNumber = newAccountNumber;
+                }
+
+                await _repo.AddAsync(saveAccount);
+            }
+            else if (typeAccount == (int)AccountTypes.LoanAccount)
+            {
+                Product saveAccount = new();
+                saveAccount.ClientId = idUser;
+                saveAccount.Charge = amount;
+                saveAccount.AccountNumber = _numberGenerator.NumberGenerator();
+                saveAccount.TypeAccountId = (int)AccountTypes.LoanAccount;
+
+                if (await ExistCodeNumber(saveAccount.AccountNumber))
+                {
+                    var newAccountNumber = _numberGenerator.NumberGenerator();
+                    saveAccount.AccountNumber = newAccountNumber;
+                }
+                //sumandole lo del prestamo a la cuenta principal
+                await AddAmountSavingAccount(idUser, amount);
+                await _repo.AddAsync(saveAccount);
+            }
+        }
         public async Task AddAmountSavingAccount(string idUser, double amount)
         {
             List<Product> savingAccounts = await GetAllProductByUser(idUser, (int)AccountTypes.SavingAccount);
@@ -72,6 +109,13 @@ namespace InternetBanking.Core.Application.Services
             sAPrincipal.Charge += amount;
 
             await _repo.UpdateAsync(sAPrincipal, sAPrincipal.Id);
+        }
+        public async Task<List<ProductViewModel>> GetAllProductWithInclude(string idUser)
+        {
+            List<Product> products = await _repo.GetAllWithIncludeAsync(new List<string> { "TypeAccount" });
+            products = products.Where(p => p.ClientId == idUser).ToList();
+            List<ProductViewModel> productsVm = _mapper.Map<List<ProductViewModel>>(products);
+            return productsVm;
         }
         public async Task<List<Product>> GetAllProductByUser(string idUser, int typeAccountId)
         {
@@ -110,6 +154,39 @@ namespace InternetBanking.Core.Application.Services
             }
 
             return response;
+        }
+        public async Task<ProductViewModel> DeleteProductAsync(int IdProduct)
+        {
+            Product product = await _repo.GetByIdAsync(IdProduct);
+
+            ProductViewModel responseVm = _mapper.Map<ProductViewModel>(product);
+
+
+            if (product.TypeAccountId == (int)AccountTypes.SavingAccount)
+            {
+                await AddAmountSavingAccount(product.ClientId, product.Charge);
+            }
+            if (product.TypeAccountId == (int)AccountTypes.CreditAccount)
+            {
+                if (product.Charge != 0)
+                {
+                    responseVm.HasError = true;
+                    responseVm.Error = "No se puede eliminar esta cuenta de credito hasta que salde lo que debe.!";
+                    return responseVm;
+                }
+            }
+            if (product.TypeAccountId == (int)AccountTypes.LoanAccount)
+            {
+                if (product.Charge != 0)
+                {
+                    responseVm.HasError = true;
+                    responseVm.Error = "No se puede eliminar este prestamo hasta que salde lo que debe.!";
+                    return responseVm;
+                }
+            }
+
+            await _repo.DeleteAsync(product);
+            return responseVm;
         }
         public async Task<bool> ExistProduct(int IdProduct)
         {
