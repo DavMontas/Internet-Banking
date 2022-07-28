@@ -4,6 +4,7 @@ using InternetBanking.Core.Application.Enums;
 using InternetBanking.Core.Application.Interfaces.Repositories;
 using InternetBanking.Core.Application.Interfaces.Services;
 using InternetBanking.Core.Application.ViewModels.Account;
+using InternetBanking.Core.Application.ViewModels.Products;
 using InternetBanking.Core.Application.ViewModels.Recipient;
 using InternetBanking.Core.Application.ViewModels.User;
 using InternetBanking.Core.Domain.Entities;

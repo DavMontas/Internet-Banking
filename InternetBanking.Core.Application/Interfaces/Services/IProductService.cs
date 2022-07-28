@@ -9,7 +9,15 @@ namespace InternetBanking.Core.Application.Interfaces.Services
     {
         Task AddSavingAccountAsync(string idUser, double amount);
 
+        Task CreateAccountAsync(string idUser, double amount, int typeAccount);
+
         Task AddAmountSavingAccount(string idUser, double amount);
+
+        Task<ProductViewModel> DeleteProductAsync(int IdProduct);
+
+        Task<List<ProductViewModel>> GetAllProductWithInclude(string idUser);
+
+        //Task<List<ProductViewModel>> GetAllProductWithList(string idUser);
 
         Task<List<Product>> GetAllProductByUser(string idUser, int typeAccountId);
 

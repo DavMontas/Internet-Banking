@@ -1,0 +1,65 @@
+﻿@using InternetBanking.Core.Application.ViewModels.Products;
+@using InternetBanking.Core.Application.ViewModels.Account;
+@model ProductSaveViewModel  
+@{
+    ViewData["Title"] = "CreateAccount";
+}
+
+<div class="container-fluid">
+    <div class="row">
+        <section class="col-10 mx-auto bg-primary rounded-3 text-white text-center p-3 my-5">
+            <h3 class="display-8 fw-normal text-uppercase fw-bolder m-0">
+                Crear Cuenta
+            </h3>
+        </section>
+        <div class="col-6 mx-auto">
+            <div class="card shadow">
+                <div class="card-body">
+                    @*@if (Model.HasError)
+                    {
+                        <div class="alert alert-danger alert-dimissible fade show" role="alert">
+                            <p>@Model.Error</p>
+                            <button type="button" class="btn-close" data-bs-dimiss="alert" aria-label="Close"></button>
+                        </div>
+                    }*@
+                    <form asp-controller="Product" asp-action="CreateAccount" method="post" class="row gap-3 my-3">
+                        <div class="">
+                            <h3 class="text-muted text-center" id="title">
+                                Creando Cuenta
+                            </h3>
+                        </div>
+                        <section class="col-5 mx-auto">
+                            <div class="form-floating mb-3">
+                                <select asp-for="TypeAccountId"
+                                        value="@Model.TypeAccountId"
+                                        class="form-select"
+                                        id="rolSelectCreate"
+                                        aria-label="Default select example">
+                                    <option selected>Seleccionar tipo de cuenta</option>
+
+                                    @foreach (TypeAccountViewModel item in ViewBag.Types)
+                                    {
+                                        <option value="@item.Id">@item.NameAccount</option>
+                                    }
+                                </select>
+                            </div>
+
+                            <div class="form-floating mb-3">
+                                <input asp-for="Charge" class="form-control" placeholder="Monto" />
+                                <label asp-for="Charge" class="form-label" id="montoCreateLabel">Monto / Limite de tarjeta</label>
+                                <span asp-validation-for="Charge" class="text-danger"></span>
+                            </div>
+
+                            <input hidden asp-for="ClientId" value="@Model.ClientId" />
+
+                            <div class="col-11 mx-auto">
+                                <button type="submit" class="btn btn-primary btn-lg w-100 mt-2">Crear</button>
+                                <a asp-controller="Product" asp-action="Index" asp-route-id="@Model.ClientId" class="btn btn-light w-100 mt-2">Volver atrás</a>
+                            </div>
+                        </section>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -25,7 +25,7 @@ namespace InternetBanking.Infrastructure.Persistence.Repositories
 
         public virtual async Task DeleteAsync(Entity entity)
         {
-            _db.Entry(entity).State = EntityState.Modified;
+            _db.Set<Entity>().Remove(entity);
             await _db.SaveChangesAsync();
 
         }

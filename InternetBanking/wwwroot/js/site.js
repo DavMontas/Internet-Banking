@@ -2,7 +2,6 @@
 const montoLabel = document.querySelector("#montoLabel");
 const rolSelect = document.querySelector("#rol-select");
 
-
 document.addEventListener('DOMContentLoaded', () => {
     // To hide after loading the view
     montoLabel.classList.add("d-none");

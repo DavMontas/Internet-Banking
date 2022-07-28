@@ -18,7 +18,7 @@ namespace InternetBanking.Infrastructure.Persistence.Context
     public class AppDbContext : DbContext
     {
         private readonly IHttpContextAccessor _httpContextAccessor;
-        private UserViewModel user;
+        private UserViewModel user = new();
 
         public AppDbContext(DbContextOptions<AppDbContext> options, IHttpContextAccessor http) : base(options) 
         {

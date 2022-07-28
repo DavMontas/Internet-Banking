@@ -1,0 +1,81 @@
+﻿@using InternetBanking.Core.Application.ViewModels.Products;
+@model ProductViewModel
+@{
+    string clientId = ViewBag.ClientId;
+    ViewData["Title"] = "Index";
+}
+
+<div class="row">
+
+    <div class="row bg-light rounded p-3 mb-5">
+        <section class="w-100 d-flex justify-content-between gap-3 align-items-center px-5">
+            <h3 class="fs-4 fw-bold fw-bolder m-2 w-100">
+                Productos
+                <span class="fs-5 fw-bold fw-bolder text-muted m-2 text-end w-100">
+                    / Administración de usuarios
+                </span>
+            </h3>
+            <a asp-controller="Home" asp-action="UserManagement" class="btn btn-outline-dark">
+                Volver atras
+            </a>
+            <a asp-controller="Product" asp-action="CreateAccount" asp-route-id="@clientId" class="btn btn-outline-dark">
+                Agregar Nuevo Producto
+            </a>
+        </section>
+    </div>
+
+    <div class="col-8 mx-auto">
+
+        @if (ViewBag.ProductList == null || ViewBag.ProductList.Count == 0)
+        {
+            <h2>No existen productos de este usuario</h2>
+        }
+        else
+        {
+            <table class="table table-hover">
+                <thead>
+                    <tr class="table-primary">
+                        <th scope="col">Num. de cuenta</th>
+                        <th scope="col">Monto</th>
+                        <th scope="col">Dueño</th>
+                        <th scope="col">Principal</th>
+                        <th scope="col">Descontado</th>
+                        <th scope="col">Tipo de cuenta</th>
+                        <th class="text-center" scope="col">Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (ProductViewModel item in ViewBag.ProductList)
+                    {
+                        <tr class="table-light">
+                            <td>@item.AccountNumber</td>
+                            <td>$ @item.Charge</td>
+                            <td>@item.Owner</td>
+                            <td>@item.IsPrincipal</td>
+                            <td>$ @item.Discharge</td>
+                            <td>@item.TypeAccount.NameAccount</td>
+                            <td>
+                                <div class="d-flex justify-content-start w-100">
+                                    @if (item.IsPrincipal != true)
+                                    {
+                                        <a 
+                                            asp-controller="Product" 
+                                            asp-action="DeleteProduct" 
+                                            asp-route-id="@item.Id" 
+                                            class="btn btn-sm btn-info me-2 w-100"
+                                        >
+                                            Eliminar
+                                        </a>
+                                    }
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
+    </div>
+
+</div>
+
+

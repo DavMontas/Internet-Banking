@@ -1,0 +1,21 @@
+﻿@using InternetBanking.Core.Application.ViewModels.Products;
+@model ProductViewModel 
+@{
+    ViewData["Title"] = "DeleteProductMessageError";
+}
+
+<div class="col-5 mt-5 mx-auto">
+
+    @if (Model.HasError)
+    {
+        <div class="alert alert-danger alert-dimissible fade show" role="alert">
+            <p>@Model.Error</p>
+            @*<button type="button" class="btn btn-close" data-bs-dimiss="alert" aria-label="Close"></button>*@
+            <a asp-controller="Product" asp-action="Index" asp-route-id="@Model.ClientId" class="btn btn-outline-dark">
+                Volver atras
+            </a>
+        </div>
+    }
+
+</div>
+
