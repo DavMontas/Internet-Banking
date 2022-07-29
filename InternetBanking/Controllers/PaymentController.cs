@@ -14,19 +14,21 @@ namespace WebApp.InternetBanking.Controllers
     public class PaymentController : Controller
     {
         private readonly IPaymentService _paymentSvc;
+        private readonly IRecipientService _recipientService;
         private readonly IProductService _productService;
         private readonly IUserService _userService;
 
         private readonly IHttpContextAccessor _httpContextAccessor;
         AuthenticationResponse userSesion;
 
-        public PaymentController(IHttpContextAccessor httPContextAccesor , IPaymentService paymentService, IProductService productService, IUserService userService)
+        public PaymentController(IHttpContextAccessor httPContextAccesor , IPaymentService paymentService, IProductService productService, IUserService userService, IRecipientService recipientService)
         {
             _httpContextAccessor = httPContextAccesor;
             userSesion = _httpContextAccessor.HttpContext.Session.Get<AuthenticationResponse>("user");
             _paymentSvc = paymentService;
             _productService = productService;
             _userService = userService;
+            _recipientService = recipientService;
         }
         
         public ActionResult Index()
@@ -117,7 +119,38 @@ namespace WebApp.InternetBanking.Controllers
             vm.Owner = $"{owner.FirstName} {owner.LastName}";
             return RedirectToAction("ConfirmPayment", vm);
         }
-        
+
+        public async Task<ActionResult> BeneficiaryPayment()
+        {
+            var payments = await _recipientService.GetAllVm();
+            ViewBag.Recipients = payments.Where(b => b.UserId == userSesion.Id);
+
+            return View(new SavePaymentViewModel());
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> BeneficiaryPayment(SavePaymentViewModel vm)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(vm);
+            }
+
+            ProductViewModel accountToPay = await
+                _productService.GetProductByNumberAccountForPayment
+                (vm.PaymentAccount, vm.AmountToPay);
+
+            if (accountToPay.HasError)
+            {
+                vm.HasError = accountToPay.HasError;
+                vm.Error = accountToPay.Error;
+                return View(vm);
+            }
+            var owner = await _userService.GetUserById(accountToPay.ClientId);
+            vm.Owner = $"{owner.FirstName} {owner.LastName}";
+            return RedirectToAction("ConfirmPayment", vm);
+        }
+
         public ActionResult ConfirmPayment(SavePaymentViewModel vm)
         {
             return View(vm);
